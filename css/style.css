@@ -177,6 +177,11 @@ a.selected {
   width: 250px;
 }
 
+.listado-words .active {
+  background-color: #90e0ef;
+  opacity: 1;
+}
+
 /*Home*/
 .contenedor-texto {
   width: 100%;
@@ -213,6 +218,144 @@ a.selected {
     transform: translateY(20px);
   }
 }
+
+/*vocabulario*/
+.section-form {
+  padding: 1rem;
+  background: #90e0ef;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+  transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.main-vocabulary h1 {
+  margin-bottom: 2rem;
+  color: black;
+  font-weight: normal;
+}
+
+.contenedor-form-vocabulary {
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-select {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 0.8rem;
+}
+
+select {
+  padding: 0.75rem 1.25rem;
+  border-radius: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  outline: none;
+}
+
+select:focus {
+  border: 1px solid #008fce;
+}
+.contenedor-btn {
+  display: flex;
+  justify-content: center;
+  grid-column: 1/3;
+}
+
+.btn-regular {
+  width: 100%;
+  align-self: center;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  border-radius: 1rem;
+  background-color: #f77f00;
+  opacity: 0.6;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  transition-duration: 0.4s;
+}
+
+.btn-regular:hover {
+  opacity: 1;
+}
+.section-actividad {
+  transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.contenedor-actividad {
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-audio {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+audio {
+  -moz-box-shadow: 2px 2px 4px 0px #008fce;
+  -webkit-box-shadow: 2px 2px 4px 0px #008fce;
+  box-shadow: 2px 2px 4px 0px #008fce;
+  -moz-border-radius: 7px 7px 7px 7px;
+  -webkit-border-radius: 7px 7px 7px 7px;
+  border-radius: 7px 7px 7px 7px;
+}
+
+.active-word li {
+  background-color: #90e0ef;
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+}
+
+.active-word li:nth-child(1) {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.img-word {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.img-word img {
+  border-radius: 1rem;
+  width: 250px;
+  height: 250px;
+}
+.listado-words {
+  margin-bottom: 30rem;
+}
+
+.listado-words li {
+  background-color: #f77f00;
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.listado-words li:hover {
+  opacity: 1;
+}
+
 /*Media querys*/
 
 @media screen and (max-width: 760px) {
@@ -237,6 +380,7 @@ a.selected {
     margin: 0 auto;
     margin-bottom: 2rem;
   }
+
   .contenedor-img {
     height: 100px;
     grid-template-columns: repeat(3, 1fr);
@@ -270,6 +414,30 @@ a.selected {
     border-radius: 150px;
     margin: 0 auto;
   }
+  /*Vocabulario*/
+
+  .contenedor-select {
+    flex-direction: row;
+  }
+
+  .form-group {
+    padding-left: 2rem;
+    padding-right: 1.5rem;
+  }
+
+  .btn-regular {
+    width: 50%;
+  }
+
+  .section-form {
+    width: 61%;
+    margin: 0 auto;
+    justify-content: center;
+  }
+  .contenedor-active-word .contenedor-img .img-home-dos {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 @media (min-width: 992px) {
@@ -277,4 +445,30 @@ a.selected {
     grid-row: 1/4;
     grid-column: 3/4;
   }
+
+  /*Vocabulario*/
+  .contenedor-actividad {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .contenedor-audio {
+    justify-content: initial;
+  }
+
+  .img-word {
+    justify-content: initial;
+  }
+
+  .img-word img {
+    margin-left: 1rem;
+  }
+  .listado-words {
+    width: 50%;
+  }
+}
+
+/*Clases para usar en JavaScript*/
+
+.ocultar {
+  display: none;
 }

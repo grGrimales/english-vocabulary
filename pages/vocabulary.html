@@ -22,7 +22,9 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Patrick+Hand&display=swap"
       rel="stylesheet"
     />
+
     <link rel="stylesheet" href="../css/style.css" />
+    <script src="https://code.iconify.design/2/2.1.2/iconify.min.js"></script>
   </head>
   <body id="body">
     <!-- Header -->
@@ -80,49 +82,43 @@
 
     <!-- Contenido Principal-->
     <main class="main-vocabulary">
-      <h1 class="text-center">Vocabulario</h1>
+      <section class="section-form">
+        <h1 class="text-center">¿Que categoría te gustaría escuchar hoy?</h1>
+        <form class="contenedor-form-vocabulary">
+          <div class="contenedor-select">
+            <div class="form-group">
+              <label for="categoria">Seleccionar categoría:</label>
+              <select name="categoria" id="categoria">
+                <option disabled selected>--Seleccione--</option>
 
-      <section>
-        <div class="contenedor-vocabulario">
-          <div class="contenedor-form">
-            <form>
-              <label for="vocabulary">Filtrar por</label>
-              <select name="vocabulary" id="vocabulary">
+                <option value="clima">Clima</option>
+                <option value="Comidas">Comidas</option>
+                <option value="Viajes">Viajes</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="order">Ordenar por:</label>
+              <select name="order" id="order">
                 <option disabled selected>--Seleccione--</option>
 
                 <option value="aleatorio">Aleatorio</option>
                 <option value="menos reproducidas">Menos reproducidas</option>
                 <option value="menos aciertos">Menos aciertos</option>
               </select>
-            </form>
-          </div>
-
-          <!--Contenedor Palabra reproduciendo-->
-          <div class="contenedor-reproduciendo">
-            <!--Contenedor Audio-->
-            <div class="contenedor-audio">
-              <audio controls>
-                <source
-                  src="https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305308/phrase/audio/hello..._ddrc0b.mp3"
-                  type="audio/mp3"
-                />
-                Tu navegador no soporta audio HTML5.
-              </audio>
             </div>
-
-            <ul>
-              <li>Summer</li>
-              <li>Verano</li>
-            </ul>
-
-            <img
-              src="../img/panorama.jpg"
-              alt="Verano"
-              width="250"
-              height="250"
-            />
           </div>
 
+          <button class="btn-regular" type="submit" id="btnInicio">
+            Comenzar
+          </button>
+        </form>
+      </section>
+
+      <section class="section-actividad ocultar">
+        <div class="contenedor-actividad">
+          <!--Contenedor Palabra reproduciendo-->
+          <div class="contenedor-active-word"></div>
           <div class="contenedor-img">
             <img
               class="img-home-dos"
@@ -131,50 +127,10 @@
             />
           </div>
           <!--Contenedor listado de palabras-->
-
-          <div class="listado-reproduccion">
-            <ul id="palabras">
-              <!-- <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li>
-              <li>Hello</li> -->
-            </ul>
-          </div>
+          <ul id="words" class="listado-words"></ul>
+          <div class="contenedor-listado-words"></div>
         </div>
       </section>
-
-      <!-- 
-      <img
-        src="./img/abacus-gd31905173_1280.jpg"
-        alt="Abaco"
-        class="carrousel"
-      />
-      <img
-        src="./img/education-g0f97bfd4d_1280.jpg"
-        alt="Educación"
-        class="carrousel"
-      />
-      <img
-        src="./img/puzzle-g06cc223cc_1280.jpg"
-        alt="Puzle"
-        class="carrousel"
-      /> -->
     </main>
 
     <script src="../js/index.js"></script>
