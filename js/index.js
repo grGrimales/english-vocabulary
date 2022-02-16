@@ -46,13 +46,15 @@ const sectionForm = document.querySelector(".section-form");
 const sectionActividad = document.querySelector(".section-actividad");
 const contenedorActiveWord = document.querySelector(".contenedor-active-word");
 const contenedorActivity = document.querySelector(".contenedor-actividad");
-//const contenedorActivity = document.querySelector(".contenedor-actividad");
 const words = document.querySelector("#words");
+const wordEnglishActive = document.querySelector(".word-english");
+//const wordSpanishActive = document.querySelector(".word-spanish");
 
 //Declaración variables - Array
 
 let listWords = [
   {
+    id: 1,
     englishWord: "summer",
     spanishWord: "verano",
     audio: "",
@@ -63,6 +65,7 @@ let listWords = [
   },
 
   {
+    id: 2,
     englishWord: "winter",
     spanishWord: "invierno",
     audio: "",
@@ -72,6 +75,7 @@ let listWords = [
     category: ["clima"],
   },
   {
+    id: 3,
     englishWord: "book",
     spanishWord: "libro",
     audio: "",
@@ -81,6 +85,7 @@ let listWords = [
     category: ["clima"],
   },
   {
+    id: 4,
     englishWord: "paper",
     spanishWord: "papel",
     audio: "",
@@ -90,6 +95,7 @@ let listWords = [
     category: ["oficina"],
   },
   {
+    id: 5,
     englishWord: "walk",
     spanishWord: "caminar",
     audio: "",
@@ -100,6 +106,7 @@ let listWords = [
     category: ["saludo"],
   },
   {
+    id: 6,
     englishWord: "smile",
     spanishWord: "sonreir",
     audio: "",
@@ -110,6 +117,7 @@ let listWords = [
     category: ["saludo"],
   },
   {
+    id: 7,
     englishWord: "rain",
     spanishWord: "lluvia",
     audio: "",
@@ -120,6 +128,7 @@ let listWords = [
     category: ["clima"],
   },
   {
+    id: 8,
     englishWord: "sister",
     spanishWord: "hermana",
     audio: "",
@@ -130,6 +139,7 @@ let listWords = [
     category: ["familia"],
   },
   {
+    id: 9,
     englishWord: "friend",
     spanishWord: "amigo",
     audio: "",
@@ -143,6 +153,7 @@ let listWords = [
 let selectCategoria = "";
 let selectOrder = "";
 let filteredWordList = [];
+let wordActive = {};
 
 //Función para captar valor de input
 const valueSelectCategoria = () => {
@@ -157,6 +168,7 @@ const valueSelectOrder = () => {
 
 const randomOrder = (inputArray) => {
   filteredWordList = inputArray.sort(() => Math.random() - 0.5);
+  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
 };
 
 //Función para ordenar el array por las palabras menos escuchadas.
@@ -170,6 +182,7 @@ const orderByLeastPlayed = (inputArray) => {
     }
     return 0;
   });
+  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
 };
 
 //Función para ordenar el array por las palabras con menos aciertos
@@ -183,35 +196,37 @@ const orderByhit = (inputArray) => {
     }
     return 0;
   });
+  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
 };
 
 //Función para mostrar  el contenido en el HTML
 
 const printActiveWord = (listWords) => {
-  for (const listWord of listWords) {
-    contenedorActiveWord.innerHTML = `
+  sectionForm.classList.add("ocultar");
+  sectionActividad.classList.remove("ocultar");
+  wordActive = listWords[0];
+  contenedorActiveWord.innerHTML = `
     <div class="contenedor-audio">
     <audio controls>
       <source
-        src="${listWord.audio}"
+        src="${wordActive.audio}"
         type="audio/mp3"
       />
       Tu navegador no soporta audio HTML5.
     </audio>
   </div>
   <ul class="active-word">
-    <li>
-    ${listWord.englishWord}
+    <li class="word-english">
+    ${wordActive.englishWord}
       <span class="iconify" data-icon="ep:arrow-down-bold"></span>
     </li>
-    <li>${listWord.spanishWord}</li>
+    <li  class="word-spanish">${wordActive.spanishWord}</li>
   </ul>
   <div class="img-word">
-    <img src="${listWord.image}" />
+    <img src="${wordActive.image}" />
   </div>`;
 
-    contenedorActivity.append(words);
-  }
+  contenedorActivity.append(words);
 
   const list = listWords.map((listado) => {
     return `   <li>
@@ -221,105 +236,58 @@ const printActiveWord = (listWords) => {
   words.innerHTML = list;
 };
 
-// const printList = (listWords) => {
-//   for (const listWord of listWords) {
-//     contenedorActivity.innerHTML = `
-//     <ul id="words" class="listado-words">
-//     <li> ${listWord.englishWord}</li>
+//Función para verificar si hay informacion en el localStorage
 
-//   </ul>`;
+const checkInformationLocalStorage = () => {
+  filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+  if (filteredWordList !== null) {
+    printActiveWord(filteredWordList);
+  }
+};
 
-//     sectionActividad.appendChild(contenedorActiveWord);
-//   }
-// };
+checkInformationLocalStorage();
 
-//Función al hacer submit
+//Función al hacer submit para inicair actividad de voculario
 const startActivity = (e) => {
   e.preventDefault();
   valueSelectCategoria();
   valueSelectOrder();
-
-  sectionForm.classList.add("ocultar");
-  sectionActividad.classList.remove("ocultar");
 
   let listToShow = [];
 
   listWords.forEach((vocabulary) => {
     if (vocabulary.category.includes(selectCategoria)) {
       listToShow.push(vocabulary);
+      localStorage.setItem("listToShow", JSON.stringify(listToShow));
     }
   });
 
-  // let listToShow = listWords.filter((l) => {
-  //   console.log(l.category.includes(selectCategoria));
-  //   l.category.includes(selectCategoria);
-  // });
-
-  console.log(listToShow);
-
   if (selectOrder === "aleatorio") {
+    listToShow = JSON.parse(localStorage.getItem("listToShow"));
     randomOrder(listToShow);
+    filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     printActiveWord(filteredWordList);
-
-    console.log(filteredWordList);
-    console.log(listToShow);
   } else if (selectOrder === "menos reproducidas") {
     orderByLeastPlayed(listToShow);
     printActiveWord(filteredWordList);
-
-    console.table(listToShow);
-    console.table(filteredWordList);
   } else if (selectOrder === "menos aciertos") {
     orderByhit(listToShow);
     printActiveWord(filteredWordList);
-
-    console.table(listToShow);
-    console.table(filteredWordList);
   }
-
-  console.log("Soy la función del botón 1");
-  console.log(selectOrder);
-  console.log(selectCategoria);
 };
 
+/* Función para ocultar o mostrar palabra en español*/
+const hideWordSpanish = (e) => {
+  e.preventDefault();
+  if (
+    (e.target.nodeName == "LI" && e.target.className == "word-english") ||
+    e.target.nodeName === "svg"
+  ) {
+    document.querySelector(".word-spanish").classList.toggle("ocultar");
+  }
+  console.log(e);
+};
 //Eventos
 
 btnInicio.addEventListener("click", startActivity);
-
-//Referencia al html
-const palabras = document.getElementById("palabras");
-
-// Interacción con el usuario
-
-// const filtro =
-//   "Escoge el orden para iniciar el juego: Aleatorio / Menos escuchadas / Menos aciertos";
-
-// let respuesta = prompt(filtro);
-// do {
-//   if (respuesta.toLowerCase() === "aleatorio") {
-//     randomOrder(listWords);
-//     printActiveWord(listWords);
-//     console.log(listWords);
-//     break;
-//   } else if (respuesta.toLowerCase() === "menos escuchadas") {
-//     orderByLeastPlayed(listWords);
-//     printActiveWord(listWords);
-
-//     console.table(listWords);
-//     break;
-//   } else if (respuesta.toLowerCase() === "menos aciertos") {
-//     orderByhit(listWords);
-//     printActiveWord(listWords);
-
-//     console.table(listWords);
-//     break;
-//   } else {
-//     alert("Valor inválido");
-//     respuesta = prompt(filtro);
-//   }
-// } while (
-//   respuesta === "" ||
-//   respuesta !== "aleatorio" ||
-//   respuesta !== "menos escuchadas" ||
-//   respuesta !== "menos aciertos"
-// );
+contenedorActiveWord.addEventListener("click", hideWordSpanish);
