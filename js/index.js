@@ -218,7 +218,7 @@ const printActiveWord = (listWords) => {
   <ul class="active-word">
     <li class="word-english">
     ${wordActive.englishWord}
-      <span class="iconify" data-icon="ep:arrow-down-bold"></span>
+    <i class="fa-solid fa-angle-right"></i>
     </li>
     <li  class="word-spanish">${wordActive.spanishWord}</li>
   </ul>
@@ -281,9 +281,11 @@ const hideWordSpanish = (e) => {
   e.preventDefault();
   if (
     (e.target.nodeName == "LI" && e.target.className == "word-english") ||
-    e.target.nodeName === "svg"
+    e.target.nodeName == "I"
   ) {
     document.querySelector(".word-spanish").classList.toggle("ocultar");
+    document.querySelector(".fa-solid").classList.toggle("fa-angle-right");
+    document.querySelector(".fa-solid").classList.toggle("fa-angle-down");
   }
   console.log(e);
 };
