@@ -48,7 +48,7 @@ const contenedorActiveWord = document.querySelector(".contenedor-active-word");
 const contenedorActivity = document.querySelector(".contenedor-actividad");
 const words = document.querySelector("#words");
 const wordEnglishActive = document.querySelector(".word-english");
-//const wordSpanishActive = document.querySelector(".word-spanish");
+const audio = document.getElementById("audio");
 
 //Declaración variables - Array
 
@@ -57,7 +57,8 @@ let listWords = [
     id: 1,
     englishWord: "summer",
     spanishWord: "verano",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image: "https://static.educalingo.com/img/en/800/winter.jpg",
     numberReproductions: 5,
     hit: 3,
@@ -68,7 +69,8 @@ let listWords = [
     id: 2,
     englishWord: "winter",
     spanishWord: "invierno",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image: "https://static.educalingo.com/img/en/800/winter.jpg",
     numberReproductions: 6,
     hit: 4,
@@ -78,7 +80,8 @@ let listWords = [
     id: 3,
     englishWord: "book",
     spanishWord: "libro",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image: "https://static.dw.com/image/58965278_101.jpg",
     numberReproductions: 15,
     hit: 15,
@@ -88,7 +91,8 @@ let listWords = [
     id: 4,
     englishWord: "paper",
     spanishWord: "papel",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image: "https://www.collinsdictionary.com/images/full/paper_111691001.jpg",
     numberReproductions: 8,
     hit: 8,
@@ -98,7 +102,8 @@ let listWords = [
     id: 5,
     englishWord: "walk",
     spanishWord: "caminar",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image:
       "https://www.collinsdictionary.com/images/full/walking_616425206_1000.jpg",
     numberReproductions: 5,
@@ -109,7 +114,8 @@ let listWords = [
     id: 6,
     englishWord: "smile",
     spanishWord: "sonreir",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image:
       "https://clinicabarreiro.es/wp-content/uploads/2021/09/beneficios-de-sonreir-800x450-1.jpg",
     numberReproductions: 20,
@@ -120,7 +126,8 @@ let listWords = [
     id: 7,
     englishWord: "rain",
     spanishWord: "lluvia",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image:
       "https://www.caracteristicas.co/wp-content/uploads/2018/10/lluvia-3-e1581819535291.jpg",
     numberReproductions: 10,
@@ -131,7 +138,8 @@ let listWords = [
     id: 8,
     englishWord: "sister",
     spanishWord: "hermana",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image:
       "https://images.news18.com/ibnlive/uploads/2021/08/1627782219_sisters-day-2021-1600x900.jpgs",
     numberReproductions: 8,
@@ -142,7 +150,8 @@ let listWords = [
     id: 9,
     englishWord: "friend",
     spanishWord: "amigo",
-    audio: "",
+    audio:
+      "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image: "",
     numberReproductions: 15,
     hit: 15,
@@ -154,6 +163,7 @@ let selectCategoria = "";
 let selectOrder = "";
 let filteredWordList = [];
 let wordActive = {};
+let currentIndexStorage = 0;
 
 //Función para captar valor de input
 const valueSelectCategoria = () => {
@@ -169,6 +179,7 @@ const valueSelectOrder = () => {
 const randomOrder = (inputArray) => {
   filteredWordList = inputArray.sort(() => Math.random() - 0.5);
   localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
+  localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
 //Función para ordenar el array por las palabras menos escuchadas.
@@ -183,6 +194,7 @@ const orderByLeastPlayed = (inputArray) => {
     return 0;
   });
   localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
+  localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
 //Función para ordenar el array por las palabras con menos aciertos
@@ -197,6 +209,7 @@ const orderByhit = (inputArray) => {
     return 0;
   });
   localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
+  localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
 //Función para mostrar  el contenido en el HTML
@@ -204,17 +217,19 @@ const orderByhit = (inputArray) => {
 const printActiveWord = (listWords) => {
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
-  wordActive = listWords[0];
-  contenedorActiveWord.innerHTML = `
-    <div class="contenedor-audio">
-    <audio controls>
-      <source
-        src="${wordActive.audio}"
-        type="audio/mp3"
-      />
-      Tu navegador no soporta audio HTML5.
-    </audio>
-  </div>
+  let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
+  if (wordActiveStorage !== null) {
+    wordActive = wordActiveStorage;
+  } else {
+    wordActive = listWords[0];
+  }
+
+  audio.src = wordActive.audio;
+  const activeWord = document.createElement("div");
+  activeWord.setAttribute("id", "idPrueba");
+
+  activeWord.innerHTML = `
+
   <ul class="active-word">
     <li class="word-english">
     ${wordActive.englishWord}
@@ -226,14 +241,15 @@ const printActiveWord = (listWords) => {
     <img src="${wordActive.image}" />
   </div>`;
 
-  contenedorActivity.append(words);
+  contenedorActiveWord.append(activeWord);
 
   const list = listWords.map((listado) => {
     return `   <li>
-  ${listado.englishWord}
-  </li>`;
+    ${listado.englishWord}
+    </li>`;
   });
   words.innerHTML = list;
+  contenedorActivity.append(words);
 };
 
 //Función para verificar si hay informacion en el localStorage
@@ -268,10 +284,14 @@ const startActivity = (e) => {
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos reproducidas") {
+    listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByLeastPlayed(listToShow);
+    filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos aciertos") {
+    listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByhit(listToShow);
+    filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     printActiveWord(filteredWordList);
   }
 };
@@ -289,7 +309,56 @@ const hideWordSpanish = (e) => {
   }
   console.log(e);
 };
-//Eventos
+
+/* Función para manejar etiqueta de audio*/
+
+const handleAudio = () => {
+  changeActiveWord();
+  const currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
+
+  const existe = !!document.getElementById("idPrueba");
+
+  // LLega al final del listado
+  if (existe && currentIndexStorage >= filteredWordList.length) {
+    localStorage.setItem("currentIndex", 0);
+    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+
+    contenedorActiveWord.children[1]?.remove();
+    printActiveWord(filteredWordList);
+
+    playAudio();
+  }
+
+  if (existe && currentIndexStorage < filteredWordList.length) {
+    contenedorActiveWord.children[1].remove();
+    printActiveWord(filteredWordList);
+    playAudio();
+  }
+};
+
+// Reproduce el audio
+const playAudio = () => {
+  audio.load();
+  setTimeout(() => {
+    audio.play();
+  }, 500);
+};
+
+/* Función para cambiar palabra activa*/
+
+const changeActiveWord = () => {
+  currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
+
+  currentIndexStorage += 1;
+
+  wordActive = filteredWordList[currentIndexStorage];
+  //guardar en el local storage wordActive
+  localStorage.setItem("wordActive", JSON.stringify(wordActive));
+  localStorage.setItem("currentIndex", currentIndexStorage);
+};
+
+/*Eventos*/
 
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
+audio.addEventListener("ended", handleAudio);
