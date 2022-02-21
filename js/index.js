@@ -220,10 +220,7 @@ const orderByHit = (inputArray) => {
 const printActiveWord = (listWords) => {
   wordActive = JSON.parse(localStorage.getItem("wordActive"));
 
-  //const liElement = document.getElementById(wordActive.id);
-  //liElement?.classList.toggle("active");
-
-  //console.log(wordActive.id);
+  printListWord(listWords);
 
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
@@ -252,6 +249,19 @@ const printActiveWord = (listWords) => {
   </div>`;
 
   contenedorActiveWord.append(activeWord);
+};
+
+//Función para mostrar  el contenido en el HTML
+const printListWord = (listWords) => {
+  wordActive = JSON.parse(localStorage.getItem("wordActive"));
+
+  let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
+  if (wordActiveStorage !== null) {
+    wordActive = wordActiveStorage;
+  } else {
+    wordActive = listWords[0];
+  }
+
   const list = listWords.map((listado) => {
     return ` <li id=${listado.id} class="list ">
       ${listado.englishWord}
@@ -262,14 +272,11 @@ const printActiveWord = (listWords) => {
   words.innerHTML = list;
   contenedorActivity.append(words);
 
-  // listWords.forEach((element) => {
-  //   if (wordActive.id === element.id) {
-  //     document.getElementById();
-  //     // prueba.classList.toggle("active");
-  //   }
-  //   //  words.firstElementChild.classList.add("active");
-  // });
-  // console.log(words.childNodes);
+  listWords.forEach((element) => {
+    if (wordActive.id === element.id) {
+      document.getElementById(wordActive.id).classList.toggle("active");
+    }
+  });
 };
 
 //Función para verificar si hay informacion en el localStorage
