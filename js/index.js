@@ -50,6 +50,8 @@ const words = document.querySelector("#words");
 const wordEnglishActive = document.querySelector(".word-english");
 const audio = document.getElementById("audio");
 const probar = document.getElementById("probar");
+const categorySelected = document.querySelector("#category-selected");
+console.log(categorySelected);
 
 //Declaración variables - Array
 
@@ -169,6 +171,9 @@ let currentIndexStorage = 0;
 //Función para captar valor de input
 const valueSelectCategoria = () => {
   selectCategoria = categoria.value;
+  localStorage.setItem("selectCategoria", selectCategoria);
+
+  console.log(selectCategoria);
 };
 
 const valueSelectOrder = () => {
@@ -218,10 +223,10 @@ const orderByHit = (inputArray) => {
 const printActiveWord = (listWords) => {
   wordActive = JSON.parse(localStorage.getItem("wordActive"));
 
-  const liElement = document.getElementById(wordActive.id);
-  liElement?.classList.toggle("active");
+  //const liElement = document.getElementById(wordActive.id);
+  //liElement?.classList.toggle("active");
 
-  console.log(wordActive.id);
+  //console.log(wordActive.id);
 
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
@@ -284,6 +289,16 @@ const checkInformationLocalStorage = () => {
 
 checkInformationLocalStorage();
 
+//Función pra imprimir la categoría seleccionada
+
+const printCategory = () => {
+  valueSelectCategoria;
+  selectCategoriaStorage = localStorage.getItem("selectCategoria");
+  categorySelected.textContent = selectCategoriaStorage.toUpperCase();
+  console.log(selectCategoriaStorage);
+};
+
+printCategory();
 //Función al hacer submit para inicair actividad de voculario
 const startActivity = (e) => {
   e.preventDefault();
