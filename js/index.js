@@ -49,6 +49,7 @@ const contenedorActivity = document.querySelector(".contenedor-actividad");
 const words = document.querySelector("#words");
 const wordEnglishActive = document.querySelector(".word-english");
 const audio = document.getElementById("audio");
+const probar = document.getElementById("probar");
 
 //Declaración variables - Array
 
@@ -198,7 +199,7 @@ const orderByLeastPlayed = (inputArray) => {
 };
 
 //Función para ordenar el array por las palabras con menos aciertos
-const orderByhit = (inputArray) => {
+const orderByHit = (inputArray) => {
   filteredWordList = inputArray.sort((a, b) => {
     if (a.hit > b.hit) {
       return 1;
@@ -215,6 +216,13 @@ const orderByhit = (inputArray) => {
 //Función para mostrar  el contenido en el HTML
 
 const printActiveWord = (listWords) => {
+  wordActive = JSON.parse(localStorage.getItem("wordActive"));
+
+  const liElement = document.getElementById(wordActive.id);
+  liElement?.classList.toggle("active");
+
+  console.log(wordActive.id);
+
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
@@ -242,14 +250,27 @@ const printActiveWord = (listWords) => {
   </div>`;
 
   contenedorActiveWord.append(activeWord);
-
   const list = listWords.map((listado) => {
-    return `   <li>
-    ${listado.englishWord}
-    </li>`;
+    return ` <li id=${listado.id} class="list ">
+      ${listado.englishWord}
+      </li>
+    `;
   });
+
+  console.log(wordActive.id == listWords.id);
+  console.log(wordActive.id);
+
   words.innerHTML = list;
   contenedorActivity.append(words);
+
+  // listWords.forEach((element) => {
+  //   if (wordActive.id === element.id) {
+  //     document.getElementById();
+  //     // prueba.classList.toggle("active");
+  //   }
+  //   //  words.firstElementChild.classList.add("active");
+  // });
+  // console.log(words.childNodes);
 };
 
 //Función para verificar si hay informacion en el localStorage
@@ -290,7 +311,7 @@ const startActivity = (e) => {
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos aciertos") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
-    orderByhit(listToShow);
+    orderByHit(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     printActiveWord(filteredWordList);
   }
@@ -318,6 +339,8 @@ const handleAudio = () => {
 
   const existe = !!document.getElementById("idPrueba");
 
+  // cambiar css del listado de palabras
+
   // LLega al final del listado
   if (existe && currentIndexStorage >= filteredWordList.length) {
     localStorage.setItem("currentIndex", 0);
@@ -325,15 +348,19 @@ const handleAudio = () => {
 
     contenedorActiveWord.children[1]?.remove();
     printActiveWord(filteredWordList);
-
     playAudio();
   }
-
   if (existe && currentIndexStorage < filteredWordList.length) {
     contenedorActiveWord.children[1].remove();
     printActiveWord(filteredWordList);
     playAudio();
   }
+
+  // if (wordActive.id == liElement.id) {
+  //   ;
+  //   console.log("cambio");
+  //   console.log(words.childNodes);
+  // }
 };
 
 // Reproduce el audio
@@ -352,8 +379,12 @@ const changeActiveWord = () => {
   currentIndexStorage += 1;
 
   wordActive = filteredWordList[currentIndexStorage];
+
   //guardar en el local storage wordActive
-  localStorage.setItem("wordActive", JSON.stringify(wordActive));
+  // validamos si wordActive existe, si existe lo guardamos en localstorage
+  if (wordActive) {
+    localStorage.setItem("wordActive", JSON.stringify(wordActive));
+  }
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 

@@ -85,7 +85,7 @@
 
     <!-- Contenido Principal-->
     <main class="main-vocabulary">
-      <section class="section-form">
+      <section class="section-form mt-3">
         <h1 class="text-center">¿Que categoría te gustaría escuchar hoy?</h1>
         <form class="contenedor-form-vocabulary">
           <div class="contenedor-select">
@@ -120,13 +120,7 @@
       </section>
 
       <section class="section-actividad ocultar">
-        <!-- <audio id="audio" controls>
-          <source
-            src="https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3"
-            type="audio/mp3"
-          />
-          Tu navegador no soporta audio HTML5.
-        </audio> -->
+        <h3>Has seleccionado: <span>xxx</span></h3>
         <div class="contenedor-actividad">
           <!--Contenedor Palabra reproduciendo-->
           <div class="contenedor-active-word">
@@ -137,15 +131,11 @@
               </audio>
             </div>
           </div>
-          <div class="contenedor-img">
-            <img
-              class="img-home-dos"
-              src="../img/listen-gcf1ac6c28_640.jpg"
-              alt="Escuchar"
-            />
-          </div>
+
           <!--Contenedor listado de palabras-->
-          <ul id="words" class="listado-words"></ul>
+          <ul id="words" class="listado-words">
+            <li id="probar"></li>
+          </ul>
         </div>
       </section>
     </main>
