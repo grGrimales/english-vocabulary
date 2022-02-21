@@ -51,7 +51,6 @@ const wordEnglishActive = document.querySelector(".word-english");
 const audio = document.getElementById("audio");
 const probar = document.getElementById("probar");
 const categorySelected = document.querySelector("#category-selected");
-console.log(categorySelected);
 
 //Declaración variables - Array
 
@@ -172,8 +171,6 @@ let currentIndexStorage = 0;
 const valueSelectCategoria = () => {
   selectCategoria = categoria.value;
   localStorage.setItem("selectCategoria", selectCategoria);
-
-  console.log(selectCategoria);
 };
 
 const valueSelectOrder = () => {
@@ -262,9 +259,6 @@ const printActiveWord = (listWords) => {
     `;
   });
 
-  console.log(wordActive.id == listWords.id);
-  console.log(wordActive.id);
-
   words.innerHTML = list;
   contenedorActivity.append(words);
 
@@ -292,13 +286,10 @@ checkInformationLocalStorage();
 //Función pra imprimir la categoría seleccionada
 
 const printCategory = () => {
-  valueSelectCategoria;
-  selectCategoriaStorage = localStorage.getItem("selectCategoria");
-  categorySelected.textContent = selectCategoriaStorage.toUpperCase();
-  console.log(selectCategoriaStorage);
+  const selectCategoriaStorage = localStorage.getItem("selectCategoria");
+  categorySelected.textContent = selectCategoriaStorage?.toUpperCase();
 };
 
-printCategory();
 //Función al hacer submit para inicair actividad de voculario
 const startActivity = (e) => {
   e.preventDefault();
@@ -330,8 +321,10 @@ const startActivity = (e) => {
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     printActiveWord(filteredWordList);
   }
-};
 
+  printCategory();
+};
+printCategory();
 /* Función para ocultar o mostrar palabra en español*/
 const hideWordSpanish = (e) => {
   e.preventDefault();
@@ -370,12 +363,6 @@ const handleAudio = () => {
     printActiveWord(filteredWordList);
     playAudio();
   }
-
-  // if (wordActive.id == liElement.id) {
-  //   ;
-  //   console.log("cambio");
-  //   console.log(words.childNodes);
-  // }
 };
 
 // Reproduce el audio
