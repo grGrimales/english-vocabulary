@@ -167,6 +167,7 @@ let selectOrder = "";
 let filteredWordList = [];
 let wordActive = {};
 let currentIndexStorage = 0;
+let listToShow = [];
 
 //Función para captar valor de input
 const valueSelectCategoria = () => {
@@ -181,8 +182,8 @@ const valueSelectOrder = () => {
 //Función para devolver el array ordenado de forma aleatoria.
 
 const randomOrder = (inputArray) => {
-  filteredWordList = inputArray.sort(() => Math.random() - 0.5);
-  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
+  const ramdonList = inputArray.sort(() => Math.random() - 0.5);
+  localStorage.setItem("filteredWordList", JSON.stringify(ramdonList));
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
@@ -219,10 +220,8 @@ const orderByHit = (inputArray) => {
 //Función para mostrar  el contenido en el HTML
 
 const printActiveWord = (listWords) => {
-  wordActive = JSON.parse(localStorage.getItem("wordActive"));
-
+  //wordActive = JSON.parse(localStorage.getItem("wordActive"));
   printListWord(listWords);
-
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
@@ -234,7 +233,7 @@ const printActiveWord = (listWords) => {
 
   audio.src = wordActive.audio;
   const activeWord = document.createElement("div");
-  activeWord.setAttribute("id", "idPrueba");
+  activeWord.setAttribute("id", "idActiveWord");
 
   activeWord.innerHTML = `
 
@@ -304,29 +303,42 @@ const startActivity = (e) => {
   valueSelectCategoria();
   valueSelectOrder();
 
-  let listToShow = [];
+  if (
+    selectOrder === "--Seleccione--" ||
+    selectCategoria === "--Seleccione--"
+  ) {
+    return;
+  }
+
+  listToShow = [];
+  filteredWordList = [];
 
   listWords.forEach((vocabulary) => {
     if (vocabulary.category.includes(selectCategoria)) {
       listToShow.push(vocabulary);
-      localStorage.setItem("listToShow", JSON.stringify(listToShow));
     }
   });
+
+  localStorage.setItem("listToShow", JSON.stringify(listToShow));
 
   if (selectOrder === "aleatorio") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     randomOrder(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos reproducidas") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByLeastPlayed(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos aciertos") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByHit(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+
     printActiveWord(filteredWordList);
   }
 
@@ -344,7 +356,6 @@ const hideWordSpanish = (e) => {
     document.querySelector(".change").classList.toggle("fa-angle-right");
     document.querySelector(".change").classList.toggle("fa-angle-down");
   }
-  console.log(e);
 };
 
 /* Función para manejar etiqueta de audio*/
@@ -353,21 +364,16 @@ const handleAudio = () => {
   changeActiveWord();
   const currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
 
-  const existe = !!document.getElementById("idPrueba");
-
-  // cambiar css del listado de palabras
-
   // LLega al final del listado
-  if (existe && currentIndexStorage >= filteredWordList.length) {
+  if (currentIndexStorage >= filteredWordList.length) {
     localStorage.setItem("currentIndex", 0);
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-
     contenedorActiveWord.children[1]?.remove();
     printActiveWord(filteredWordList);
     playAudio();
   }
-  if (existe && currentIndexStorage < filteredWordList.length) {
-    contenedorActiveWord.children[1].remove();
+  if (currentIndexStorage < filteredWordList.length) {
+    contenedorActiveWord.children[1]?.remove();
     printActiveWord(filteredWordList);
     playAudio();
   }
@@ -398,10 +404,43 @@ const changeActiveWord = () => {
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
+// Función para reiniciar valores de las variables
+const resetValores = () => {
+  selectCategoria = "";
+  selectOrder = "";
+  filteredWordList = [];
+  listToShow = [];
+
+  // wordActive = {};
+  currentIndexStorage = 0;
+  localStorage.setItem("currentIndex", currentIndexStorage);
+
+  //localStorage.setItem("wordActive", JSON.stringify(wordActive));
+
+  categoria.value = "--Seleccione--";
+  order.value = "--Seleccione--";
+};
+
+/**
+ * Reinciar variables y retornar al formulario
+ */
 const returnForm = () => {
+  stopAudio();
+
   localStorage.clear();
+  resetValores();
+
+  contenedorActiveWord.children[1].remove();
   sectionActividad.classList.add("ocultar");
   sectionForm.classList.remove("ocultar");
+};
+
+/**
+ * Detiene y reinicia el audio
+ */
+const stopAudio = () => {
+  audio.pause();
+  audio.currentTime = 0;
 };
 
 /*Eventos*/
