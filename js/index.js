@@ -155,7 +155,9 @@ let listWords = [
     spanishWord: "amigo",
     audio:
       "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
-    image: "",
+    image:
+      "https://mejorconsalud.as.com/wp-content/uploads/2016/11/amigas-abrazandose-sofa-768x512.jpg",
+
     numberReproductions: 15,
     hit: 15,
     category: ["saludo"],
@@ -253,7 +255,7 @@ const printActiveWord = (listWords) => {
 
 //Función para mostrar  el contenido en el HTML
 const printListWord = (listWords) => {
-  wordActive = JSON.parse(localStorage.getItem("wordActive"));
+  // wordActive = JSON.parse(localStorage.getItem("wordActive"));
 
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
   if (wordActiveStorage !== null) {
