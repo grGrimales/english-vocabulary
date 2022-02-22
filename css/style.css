@@ -298,6 +298,17 @@ select:focus {
   display: flex;
   justify-content: space-between;
 }
+/* .contenedor-category-return .fa-solid {
+  color: red;
+} */
+.btn-return {
+  padding: 1rem;
+  border: none;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  border-radius: 1rem;
+  font-size: 1rem;
+}
 .contenedor-actividad {
   display: flex;
   flex-direction: column;

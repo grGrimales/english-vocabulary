@@ -51,6 +51,7 @@ const wordEnglishActive = document.querySelector(".word-english");
 const audio = document.getElementById("audio");
 const probar = document.getElementById("probar");
 const categorySelected = document.querySelector("#category-selected");
+const btnReturn = document.querySelector(".btn-return");
 
 //Declaración variables - Array
 
@@ -240,7 +241,7 @@ const printActiveWord = (listWords) => {
   <ul class="active-word">
     <li class="word-english">
     ${wordActive.englishWord}
-    <i class="fa-solid fa-angle-right"></i>
+    <i class="fa-solid fa-angle-right change"></i>
     </li>
     <li  class="word-spanish">${wordActive.spanishWord}</li>
   </ul>
@@ -340,8 +341,8 @@ const hideWordSpanish = (e) => {
     e.target.nodeName == "I"
   ) {
     document.querySelector(".word-spanish").classList.toggle("ocultar");
-    document.querySelector(".fa-solid").classList.toggle("fa-angle-right");
-    document.querySelector(".fa-solid").classList.toggle("fa-angle-down");
+    document.querySelector(".change").classList.toggle("fa-angle-right");
+    document.querySelector(".change").classList.toggle("fa-angle-down");
   }
   console.log(e);
 };
@@ -397,8 +398,15 @@ const changeActiveWord = () => {
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
+const returnForm = () => {
+  localStorage.clear();
+  sectionActividad.classList.add("ocultar");
+  sectionForm.classList.remove("ocultar");
+};
+
 /*Eventos*/
 
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
 audio.addEventListener("ended", handleAudio);
+btnReturn.addEventListener("click", returnForm);

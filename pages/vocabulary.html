@@ -22,6 +22,10 @@
       href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&family=Patrick+Hand&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
 
     <link rel="stylesheet" href="../css/style.css" />
     <script
@@ -84,8 +88,8 @@
     </div>
 
     <!-- Contenido Principal-->
-    <main class="main-vocabulary">
-      <section class="section-form mt-3">
+    <main class="main-vocabulary animate__animated animate__fadeIn">
+      <section class="section-form mt-3 animate__animated animate__fadeIn">
         <h1 class="text-center">¿Que categoría te gustaría escuchar hoy?</h1>
         <form class="contenedor-form-vocabulary">
           <div class="contenedor-select">
@@ -119,13 +123,18 @@
         </form>
       </section>
 
-      <section class="section-actividad ocultar">
+      <section
+        class="section-actividad ocultar animate__animated animate__fadeIn"
+      >
         <div class="contenedor-category-return">
           <h3>
             Has seleccionado la categoría:
             <span id="category-selected">xxx</span>
           </h3>
-          <button class="btn-return" type="submit">Regresar</button>
+          <button class="btn-return" type="submit">
+            <i class="fa-solid fa-rotate-left"></i>
+            Regresar
+          </button>
         </div>
 
         <div class="contenedor-actividad">
