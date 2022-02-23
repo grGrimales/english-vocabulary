@@ -256,7 +256,7 @@ const printActiveWord = (listWords) => {
 //Función para mostrar  el contenido en el HTML
 const printListWord = (listWords) => {
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
-  if (wordActiveStorage !== null) {
+  if (wordActiveStorage !== {}) {
     wordActive = wordActiveStorage;
   } else {
     wordActive = listWords[0];
@@ -326,18 +326,22 @@ const startActivity = (e) => {
     randomOrder(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+    console.log("1", filteredWordList[0]);
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos reproducidas") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByLeastPlayed(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+    console.log("2", filteredWordList[0]);
+
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos aciertos") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByHit(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+    console.log("3", filteredWordList[0]);
 
     printActiveWord(filteredWordList);
   }
@@ -368,6 +372,8 @@ const handleAudio = () => {
   if (currentIndexStorage >= filteredWordList.length) {
     localStorage.setItem("currentIndex", 0);
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+    console.log("4", filteredWordList[0]);
+
     contenedorActiveWord.children[1]?.remove();
     printActiveWord(filteredWordList);
     playAudio();
@@ -410,12 +416,12 @@ const resetValores = () => {
   selectOrder = "";
   filteredWordList = [];
   listToShow = [];
-
   wordActive = {};
   currentIndexStorage = 0;
   localStorage.setItem("currentIndex", currentIndexStorage);
 
-  //localStorage.setItem("wordActive", JSON.stringify(wordActive));
+  localStorage.setItem("wordActive", JSON.stringify(wordActive));
+  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
 
   categoria.value = "--Seleccione--";
   order.value = "--Seleccione--";
@@ -426,10 +432,8 @@ const resetValores = () => {
  */
 const returnForm = () => {
   stopAudio();
-
   localStorage.clear();
   resetValores();
-
   contenedorActiveWord.children[1].remove();
   sectionActividad.classList.add("ocultar");
   sectionForm.classList.remove("ocultar");
@@ -448,4 +452,4 @@ const stopAudio = () => {
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
 audio.addEventListener("ended", handleAudio);
-btnReturn.addEventListener("click", returnForm);
+//btnReturn.addEventListener("click", returnForm);
