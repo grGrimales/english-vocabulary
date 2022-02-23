@@ -227,7 +227,7 @@ const printActiveWord = (listWords) => {
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
-  if (wordActiveStorage !== null) {
+  if (wordActiveStorage !== {}) {
     wordActive = wordActiveStorage;
   } else {
     wordActive = listWords[0];
@@ -255,8 +255,6 @@ const printActiveWord = (listWords) => {
 
 //Función para mostrar  el contenido en el HTML
 const printListWord = (listWords) => {
-  // wordActive = JSON.parse(localStorage.getItem("wordActive"));
-
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
   if (wordActiveStorage !== null) {
     wordActive = wordActiveStorage;
@@ -413,7 +411,7 @@ const resetValores = () => {
   filteredWordList = [];
   listToShow = [];
 
-  // wordActive = {};
+  wordActive = {};
   currentIndexStorage = 0;
   localStorage.setItem("currentIndex", currentIndexStorage);
 
