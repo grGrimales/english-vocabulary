@@ -48,7 +48,7 @@ const contenedorActiveWord = document.querySelector(".contenedor-active-word");
 const contenedorActivity = document.querySelector(".contenedor-actividad");
 const words = document.querySelector("#words");
 const wordEnglishActive = document.querySelector(".word-english");
-const audio = document.getElementById("audio");
+const audioHtml = document.getElementById("audio");
 const probar = document.getElementById("probar");
 const categorySelected = document.querySelector("#category-selected");
 const btnReturn = document.querySelector(".btn-return");
@@ -222,18 +222,17 @@ const orderByHit = (inputArray) => {
 //Función para mostrar  el contenido en el HTML
 
 const printActiveWord = (listWords) => {
-  //wordActive = JSON.parse(localStorage.getItem("wordActive"));
   printListWord(listWords);
   sectionForm.classList.add("ocultar");
   sectionActividad.classList.remove("ocultar");
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
-  if (wordActiveStorage !== {}) {
-    wordActive = wordActiveStorage;
-  } else {
-    wordActive = listWords[0];
-  }
 
-  audio.src = wordActive.audio;
+  wordActiveStorage !== {}
+    ? (wordActive = wordActiveStorage)
+    : (wordActive = listWords[0]);
+
+  const { englishWord, audio, spanishWord, image } = wordActive;
+  audioHtml.src = audio;
   const activeWord = document.createElement("div");
   activeWord.setAttribute("id", "idActiveWord");
 
@@ -241,13 +240,13 @@ const printActiveWord = (listWords) => {
 
   <ul class="active-word">
     <li class="word-english">
-    ${wordActive.englishWord}
+    ${englishWord}
     <i class="fa-solid fa-angle-right change"></i>
     </li>
-    <li  class="word-spanish">${wordActive.spanishWord}</li>
+    <li  class="word-spanish">${spanishWord}</li>
   </ul>
   <div class="img-word">
-    <img src="${wordActive.image}" />
+    <img src="${image}" />
   </div>`;
 
   contenedorActiveWord.append(activeWord);
@@ -256,15 +255,17 @@ const printActiveWord = (listWords) => {
 //Función para mostrar  el contenido en el HTML
 const printListWord = (listWords) => {
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
-  if (wordActiveStorage !== {}) {
-    wordActive = wordActiveStorage;
-  } else {
-    wordActive = listWords[0];
-  }
+
+  wordActiveStorage !== {}
+    ? (wordActive = wordActiveStorage)
+    : (wordActive = listWords[0]);
 
   const list = listWords.map((listado) => {
-    return ` <li id=${listado.id} class="list ">
+    const { id } = listado;
+
+    return ` <li id=${id} class="list ">
       ${listado.englishWord}
+
       </li>
     `;
   });
@@ -326,23 +327,18 @@ const startActivity = (e) => {
     randomOrder(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    console.log("1", filteredWordList[0]);
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos reproducidas") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByLeastPlayed(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    console.log("2", filteredWordList[0]);
-
     printActiveWord(filteredWordList);
   } else if (selectOrder === "menos aciertos") {
     listToShow = JSON.parse(localStorage.getItem("listToShow"));
     orderByHit(listToShow);
     filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    console.log("3", filteredWordList[0]);
-
     printActiveWord(filteredWordList);
   }
 
@@ -362,6 +358,14 @@ const hideWordSpanish = (e) => {
   }
 };
 
+/* Función para limpiar el html*/
+
+const clearHtml = () => {
+  while (contenedorActiveWord.children[1]) {
+    contenedorActiveWord.children[1].remove();
+  }
+};
+
 /* Función para manejar etiqueta de audio*/
 
 const handleAudio = () => {
@@ -372,14 +376,12 @@ const handleAudio = () => {
   if (currentIndexStorage >= filteredWordList.length) {
     localStorage.setItem("currentIndex", 0);
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    console.log("4", filteredWordList[0]);
-
-    contenedorActiveWord.children[1]?.remove();
+    clearHtml();
     printActiveWord(filteredWordList);
     playAudio();
   }
   if (currentIndexStorage < filteredWordList.length) {
-    contenedorActiveWord.children[1]?.remove();
+    clearHtml();
     printActiveWord(filteredWordList);
     playAudio();
   }
@@ -414,14 +416,12 @@ const changeActiveWord = () => {
 const resetValores = () => {
   selectCategoria = "";
   selectOrder = "";
-  filteredWordList = [];
   listToShow = [];
   wordActive = {};
   currentIndexStorage = 0;
   localStorage.setItem("currentIndex", currentIndexStorage);
 
   localStorage.setItem("wordActive", JSON.stringify(wordActive));
-  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
 
   categoria.value = "--Seleccione--";
   order.value = "--Seleccione--";
@@ -430,7 +430,8 @@ const resetValores = () => {
 /**
  * Reinciar variables y retornar al formulario
  */
-const returnForm = () => {
+const returnForm = (e) => {
+  e.preventDefault();
   stopAudio();
   localStorage.clear();
   resetValores();
@@ -452,4 +453,4 @@ const stopAudio = () => {
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
 audio.addEventListener("ended", handleAudio);
-//btnReturn.addEventListener("click", returnForm);
+btnReturn.addEventListener("click", returnForm);
