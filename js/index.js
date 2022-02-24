@@ -261,9 +261,9 @@ const printListWord = (listWords) => {
     : (wordActive = listWords[0]);
 
   const list = listWords.map((listado) => {
-    const { id } = listado;
+    const { id, englishWord } = listado;
 
-    return ` <li id=${id} class="list ">
+    return ` <li id=${id} class="list listar">
       ${listado.englishWord}
 
       </li>
@@ -344,7 +344,9 @@ const startActivity = (e) => {
 
   printCategory();
 };
+
 printCategory();
+
 /* Función para ocultar o mostrar palabra en español*/
 const hideWordSpanish = (e) => {
   e.preventDefault();
@@ -404,7 +406,6 @@ const changeActiveWord = () => {
 
   wordActive = filteredWordList[currentIndexStorage];
 
-  //guardar en el local storage wordActive
   // validamos si wordActive existe, si existe lo guardamos en localstorage
   if (wordActive) {
     localStorage.setItem("wordActive", JSON.stringify(wordActive));
@@ -448,9 +449,33 @@ const stopAudio = () => {
   audio.currentTime = 0;
 };
 
+/**
+ * función para cambiar la palabra activa cuando demos clik en la palabra que queremos
+ */
+const selectActiveWord = (e) => {
+  if (e.target.classList.contains("list")) {
+    const idSelectWord = e.target.id;
+    const filteredClick = filteredWordList.filter(
+      (words) => words.id == idSelectWord
+    );
+    const index = filteredWordList.findIndex(
+      (indexWord) => indexWord.id == idSelectWord
+    );
+
+    wordActive = filteredClick[0];
+
+    localStorage.setItem("wordActive", JSON.stringify(wordActive));
+    localStorage.setItem("currentIndex", index);
+    clearHtml();
+    printActiveWord(filteredWordList);
+    playAudio();
+  }
+};
+
 /*Eventos*/
 
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
 audio.addEventListener("ended", handleAudio);
 btnReturn.addEventListener("click", returnForm);
+words.addEventListener("click", selectActiveWord);
