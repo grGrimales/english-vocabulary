@@ -57,21 +57,21 @@
           </div>
         </a>
 
-        <a href="#" class="selected">
+        <a href="vocabulary.html">
           <div class="option">
             <i class="fas fa-chalkboard-teacher" title="Vocabulario"></i>
             <h4>Vocabulario</h4>
           </div>
         </a>
 
-        <a href="./ejercicios.html">
+        <a href="ejercicios.html">
           <div class="option">
             <i class="fas fa-clipboard-list" title="Ejercicios"></i>
             <h4>Ejercicios</h4>
           </div>
         </a>
 
-        <a href="#">
+        <a href="#" class="selected">
           <div class="option">
             <i class="fas fa-video" title="Vídeos"></i>
             <h4>Vídeos</h4>
@@ -88,73 +88,24 @@
     </div>
 
     <!-- Contenido Principal-->
-    <main class="main-vocabulary animate__animated animate__fadeIn">
-      <section class="section-form mt-3 animate__animated animate__fadeIn">
-        <h1 class="text-center">¿Que categoría te gustaría escuchar hoy?</h1>
-        <form class="contenedor-form-vocabulary">
-          <div class="contenedor-select">
-            <div class="form-group">
-              <label for="categoria">Seleccionar categoría:</label>
-              <select name="categoria" id="categoria">
-                <option disabled selected>--Seleccione--</option>
-
-                <option value="clima">Clima</option>
-                <option value="oficina">Oficina</option>
-                <option value="saludo">Saludo</option>
-                <option value="familia">Familia</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="order">Ordenar por:</label>
-              <select name="order" id="order">
-                <option disabled selected>--Seleccione--</option>
-
-                <option value="aleatorio">Aleatorio</option>
-                <option value="menos reproducidas">Menos reproducidas</option>
-                <option value="menos aciertos">Menos aciertos</option>
-              </select>
-            </div>
-          </div>
-
-          <button class="btn-regular" type="submit" id="btnInicio">
-            Comenzar
-          </button>
-        </form>
-      </section>
-
-      <section
-        class="section-actividad ocultar animate__animated animate__fadeIn"
-      >
-        <div class="contenedor-category-return">
-          <h3>
-            Has seleccionado la categoría:
-            <span id="category-selected">xxx</span>
-          </h3>
-          <button class="btn-return" type="submit">
-            <i class="fa-solid fa-rotate-left"></i>
-            Regresar
-          </button>
-        </div>
-
-        <div class="contenedor-actividad">
-          <!--Contenedor Palabra reproduciendo-->
-          <div class="contenedor-active-word">
-            <div class="contenedor-audio">
-              <audio id="audio" controls>
-                <source src="" type="audio/mp3" />
-                Tu navegador no soporta audio HTML5.
-              </audio>
-            </div>
-          </div>
-
-          <!--Contenedor listado de palabras-->
-          <ul id="words" class="listado-words"></ul>
+    <main class="main-ejercicios animate__animated animate__fadeIn">
+      <section>
+        <h1 class="text-center mt-5">Videos</h1>
+        <h2 class="text-center mt-3">
+          Entrena tu oído con contenido en Ingles
+        </h2>
+        <div class="cont-columna contenedor-ejercicios">
+          <iframe
+            src="https://www.youtube.com/embed/mLRjFWDGs1g"
+            src="https://www.youtube.com/embed/A_MjCqQoLLA"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
       </section>
     </main>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/menu.js"></script>
-    <script src="../js/index.js"></script>
   </body>
 </html>
