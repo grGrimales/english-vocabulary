@@ -298,10 +298,13 @@ select:focus {
 .contenedor-category-return {
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
 }
-/* .contenedor-category-return .fa-solid {
-  color: red;
-} */
+
+.contenedor-category-return h3 {
+  margin-bottom: 1rem;
+}
+
 .btn-return {
   padding: 1rem;
   border: none;
@@ -309,7 +312,9 @@ select:focus {
   cursor: pointer;
   border-radius: 1rem;
   font-size: 1rem;
+  color: red;
 }
+
 .contenedor-actividad {
   display: flex;
   flex-direction: column;
@@ -356,9 +361,6 @@ audio {
   width: 250px;
   height: 250px;
 }
-.listado-words {
-  margin-bottom: 30rem;
-}
 
 .listado-words li {
   background-color: #f77f00;
@@ -390,10 +392,6 @@ audio {
   margin-top: 1.87rem;
 }
 
-.contenedor-ejercicios {
-  height: 34.37rem;
-}
-
 .contenedor-fila {
   background-color: #90e0ef;
   margin-bottom: 1.25rem;
@@ -419,6 +417,14 @@ iframe {
 }
 
 /*Listening*/
+
+.contenedor-boton {
+  display: flex;
+  justify-content: end;
+}
+.section-listening h1 {
+  color: black;
+}
 .section-listening {
   display: flex;
   flex-direction: column;
@@ -439,10 +445,27 @@ iframe {
   text-align: justify;
 }
 
+.contenedor-listening .contenedor-audio {
+  width: 80%;
+}
 .cotenedor-form {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+input:focus {
+  color: #1bb1e6;
+  font-weight: bold;
+  border: 2px solid #f77f00;
+}
+
+/**Remember words*/
+.contenedor-remember-words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 400px;
 }
 /*Media querys*/
 
@@ -504,6 +527,13 @@ iframe {
   }
   /*Vocabulario*/
 
+  .section-form {
+    width: 61%;
+    margin: 0 auto;
+    justify-content: center;
+    margin-top: 6rem;
+  }
+
   .contenedor-select {
     flex-direction: row;
   }
@@ -517,15 +547,13 @@ iframe {
     width: 50%;
   }
 
-  .section-form {
-    width: 61%;
-    margin: 0 auto;
-    justify-content: center;
-  }
-
   .contenedor-active-word .contenedor-img .img-home-dos {
     width: 100px;
     height: 100px;
+  }
+
+  .contenedor-category-return {
+    flex-direction: row;
   }
 
   /*Ejercicios*/
@@ -549,6 +577,18 @@ iframe {
   iframe {
     width: 40rem;
     height: 22.5rem;
+  }
+  /**Listening*/
+
+  .section-listening {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 5rem;
+    justify-content: space-around;
+  }
+
+  .btn-listening {
+    width: 100%;
   }
 }
 

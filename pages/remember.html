@@ -89,30 +89,28 @@
 
     <!-- Contenido Principal-->
     <main>
-      <div class="contenedor-boton">
-        <button class="btn-return" type="submit">
-          <i class="fa-solid fa-rotate-left"></i>
-          Regresar
-        </button>
-      </div>
+      <section class="section-remember-words animate__animated animate__fadeIn">
+        <h1 class="text-center">Remember words</h1>
+        <div class="contenedor-boton">
+          <button class="btn-return" type="submit">
+            <i class="fa-solid fa-rotate-left"></i>
+            Regresar
+          </button>
+        </div>
+        <div class="contenedor-remember-words">
+          <progress value="70" max="100">70 %</progress>
+          <p>Traduce la siguiente palabra y escribela en el recuadro:</p>
 
-      <section class="section-listening animate__animated animate__fadeIn">
-        <h1 class="text-center">Listening + Writing</h1>
-        <p>Escucha la palabra y escribela en el recuadro</p>
-        <div class="contenedor-listening">
-          <div class="contenedor-audio">
-            <audio id="audio" controls>
-              <source src="" type="audio/mp3" />
-              Tu navegador no soporta audio HTML5.
-            </audio>
-          </div>
+          <ul class="listado-words">
+            <li class="active">Summer</li>
+          </ul>
+
           <form action="">
-            <div class="cotenedor-form">
-              <input type="text" name="" />
-              <button class="btn-listening btn-regular" type="submit">
-                Comprobar respuesta
-              </button>
-            </div>
+            <input type="text" name="" />
+            <button class="btn-listening btn-regular" type="submit">
+              Comprobar respuesta
+            </button>
+            <div class="cotenedor-form"></div>
           </form>
         </div>
       </section>
