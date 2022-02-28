@@ -98,26 +98,34 @@
 
       <section class="section-listening animate__animated animate__fadeIn">
         <h1 class="text-center">Listening + Writing</h1>
+        <progress value="70" max="100">70 %</progress>
+
         <p>Escucha la palabra y escribela en el recuadro</p>
         <div class="contenedor-listening">
           <div class="contenedor-audio">
-            <audio id="audio" controls>
+            <audio id="audio-listening" controls>
               <source src="" type="audio/mp3" />
               Tu navegador no soporta audio HTML5.
             </audio>
           </div>
           <form action="">
             <div class="cotenedor-form">
-              <input type="text" name="" />
+              <input type="text" name="" autofocus id="answer" />
               <button class="btn-listening btn-regular" type="submit">
                 Comprobar respuesta
               </button>
             </div>
           </form>
         </div>
+        <div class="contenedor-msj"></div>
       </section>
     </main>
+    <script
+      src="https://kit.fontawesome.com/0cd8dbf3de.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="../js/menu.js"></script>
+    <script type="module" src="../js/listening.js"></script>
     <!-- <script src="../js/index.js"></script> -->
   </body>
 </html>

@@ -106,3 +106,5 @@ let listWords = [
     category: ["saludo"],
   },
 ];
+
+export default listWords;

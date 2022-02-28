@@ -458,6 +458,31 @@ input:focus {
   font-weight: bold;
   border: 2px solid #f77f00;
 }
+.contenedor-msj {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem;
+  height: 70px;
+  transition: all ease-in 0.3s;
+  text-align: center;
+  border-radius: 1rem;
+  color: transparent;
+  margin-top: 1rem;
+}
+
+.error {
+  background-color: #fddfe0;
+  font-weight: bold;
+  color: #f94a4b;
+}
+
+.success {
+  background-color: #d4f1b8;
+  transition: all ease-in 0.3s;
+  color: #58a700;
+}
 
 /**Remember words*/
 .contenedor-remember-words {
@@ -583,7 +608,7 @@ input:focus {
   .section-listening {
     width: 60%;
     margin: 0 auto;
-    margin-top: 5rem;
+    margin-top: 1rem;
     justify-content: space-around;
   }
 

@@ -72,7 +72,7 @@ const orderByHit = (inputArray) => {
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
-//Función para mostrar  el contenido en el HTML
+//Función para mostrar  la palabra activa en el HTML
 
 const printActiveWord = (listWords) => {
   printListWord(listWords);
@@ -105,7 +105,7 @@ const printActiveWord = (listWords) => {
   contenedorActiveWord.append(activeWord);
 };
 
-//Función para mostrar  el contenido en el HTML
+//Función para mostrar  el listado en el HTML
 const printListWord = (listWords) => {
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
 
