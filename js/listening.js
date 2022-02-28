@@ -93,6 +93,7 @@ const nextActiveWord = (listWord) => {
     console.log(activeQuestion);
     saveValueParameters(indexActiveQuestion, activeQuestion);
     printAudioActive(activeQuestion);
+    return;
   }
   if (indexActiveQuestion < listWord.length) {
     indexActiveQuestion += 1;
