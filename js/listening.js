@@ -10,6 +10,7 @@ const answer = document.querySelector("#answer");
 const sectionListening = document.querySelector(".section-listening");
 const contenedorMessage = document.querySelector(".contenedor-msj");
 const error = document.querySelector("#error");
+const btnReturn = document.querySelector(".btn-return");
 
 /* Declaración variables */
 let activeQuestion = "";
@@ -46,7 +47,7 @@ const isSuccessful = (messagge) => {
   setTimeout(() => {
     messagesuccess.remove();
     contenedorMessage.classList.remove("success");
-  }, 1000);
+  }, 2000);
   console.log("es valido");
 };
 
@@ -65,7 +66,7 @@ const showErrror = (error) => {
   setTimeout(() => {
     messageError.remove();
     contenedorMessage.classList.remove("error");
-  }, 1000);
+  }, 2000);
 };
 
 /**
@@ -125,7 +126,15 @@ const printAudioActive = (activeQuestion) => {
 printAudioActive(activeQuestion);
 
 /**
+ * Función para cerrar la actividad
+ */
+const closeListening = () => {
+  console.log("funciona");
+};
+
+/**
  * /Eventos
  */
 btnListening.addEventListener("click", evaluateAnswer);
 btnListening.addEventListener("onkeypress", evaluateAnswer);
+btnReturn.addEventListener("click", closeListening);

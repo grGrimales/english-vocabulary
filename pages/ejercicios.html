@@ -89,20 +89,19 @@
 
     <!-- Contenido Principal-->
     <main class="main-ejercicios animate__animated animate__fadeIn">
-      <section>
+      <section class="section-ejercicios">
         <h1 class="text-center mt-5">Ejercicios</h1>
         <h2 class="text-center mt-3">Ejercicios Para mejorar tu aprendizaje</h2>
         <div class="cont-columna contenedor-ejercicios">
           <!--Ejercicio uno-->
-          <div class="contenedor-fila mb-5">
+          <div id="actividad-uno" class="contenedor-fila mb-5">
             <img
               class="img-ej-uno"
               src="../img/imagen-ejer-uno.png"
               alt="Persona practicando"
             />
-            <a href="listening.html">
-              Listening + Writing. Escucha palabras ya vistas y escríbelas.
-            </a>
+
+            Listening + Writing. Escucha palabras ya vistas y escríbelas.
           </div>
 
           <!--Ejercicio dos-->
@@ -115,7 +114,92 @@
           </div>
         </div>
       </section>
+
+      <section
+        class="section-listening ocultar animate__animated animate__fadeIn"
+      >
+        <div class="contenedor-boton">
+          <button class="btn-return" type="submit">
+            <i class="fa-solid fa-rotate-left"></i>
+            Regresar
+          </button>
+        </div>
+        <div class="ejercicio-listening animate__animated animate__fadeIn">
+          <h1 class="text-center">Listening + Writing</h1>
+
+          <progress value="70" max="100">70 %</progress>
+
+          <p>Escucha la palabra y escribela en el recuadro</p>
+          <div class="contenedor-listening">
+            <div class="contenedor-audio">
+              <audio id="audio-listening" controls>
+                <source src="" type="audio/mp3" />
+                Tu navegador no soporta audio HTML5.
+              </audio>
+            </div>
+            <form action="">
+              <div class="cotenedor-form">
+                <input type="text" name="" autofocus id="answer" />
+                <button class="btn-listening btn-regular" type="submit">
+                  Comprobar respuesta
+                </button>
+              </div>
+            </form>
+          </div>
+          <div class="contenedor-msj"></div>
+        </div>
+      </section>
     </main>
+
+    <!-- Ventana modal -->
+    <div id="myModal" class="modal">
+      <!-- Contenido del modal -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+
+        <form class="contenedor-form-vocabulary">
+          <div class="contenedor-select-modal">
+            <div class="form-group">
+              <label for="categoria">Seleccionar categoría:</label>
+              <select name="categoria" id="categoria">
+                <option disabled selected>--Seleccione--</option>
+
+                <option value="clima">Clima</option>
+                <option value="oficina">Oficina</option>
+                <option value="saludo">Saludo</option>
+                <option value="familia">Familia</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="order">Ordenar por:</label>
+              <select name="order" id="order">
+                <option disabled selected>--Seleccione--</option>
+
+                <option value="aleatorio">Aleatorio</option>
+                <option value="menos reproducidas">Menos reproducidas</option>
+                <option value="menos aciertos">Menos aciertos</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cantidad">Escoge el numero de palabras:</label>
+              <input name="cantidad" type="number" />
+            </div>
+          </div>
+
+          <button class="btn-regular" type="submit" id="btnListening">
+            Comenzar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script
+      src="https://kit.fontawesome.com/0cd8dbf3de.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="../js/ejercicios.js"></script>
+    <script type="module" src="../js/listening.js"></script>
     <script src="../js/menu.js"></script>
     <!-- <script src="../js/index.js"></script> -->
   </body>

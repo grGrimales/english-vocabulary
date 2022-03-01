@@ -187,6 +187,11 @@ a.selected {
 }
 
 /*Home*/
+.section-home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .contenedor-texto {
   width: 100%;
   margin-top: 2rem;
@@ -246,7 +251,8 @@ a.selected {
   flex-direction: column;
 }
 
-.contenedor-select {
+.contenedor-select,
+.contenedor-select-modal {
   display: flex;
   flex-direction: column;
 }
@@ -266,8 +272,9 @@ select {
 }
 
 select:focus {
-  border: 1px solid #008fce;
+  border: 2px solid #f77f00;
 }
+
 .contenedor-btn {
   display: flex;
   justify-content: center;
@@ -398,6 +405,7 @@ audio {
   width: 80%;
   padding: 1rem;
   border-radius: 0.5rem;
+  cursor: pointer;
 }
 
 .contenedor-ejercicios a {
@@ -416,6 +424,44 @@ iframe {
   margin: 2rem;
 }
 
+/* Ventana modal */
+.modal {
+  margin-top: 3rem;
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #90e0ef;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 1rem;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /*Listening*/
 
 .contenedor-boton {
@@ -425,7 +471,7 @@ iframe {
 .section-listening h1 {
   color: black;
 }
-.section-listening {
+.ejercicio-listening {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -518,9 +564,10 @@ input:focus {
   }
 
   .contenedor-img {
-    height: 100px;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    /* height: 100px; */
+    margin-top: 4rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
   }
 
   .img-home-dos {
@@ -603,9 +650,14 @@ input:focus {
     width: 40rem;
     height: 22.5rem;
   }
+
+  .modal {
+    margin-top: 0;
+  }
+
   /**Listening*/
 
-  .section-listening {
+  .ejercicio-listening {
     width: 60%;
     margin: 0 auto;
     margin-top: 1rem;
