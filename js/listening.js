@@ -1,5 +1,3 @@
-import listWords from "./db.js";
-
 /* Inicia funcionalidad de sección listning + Writing */
 
 /* Referencia al Html*/
@@ -86,7 +84,6 @@ initValueParameters();
 /**
  * Función para  Actualizar en el local storage los valores de palabra activa y el index
  */
-console.log(activeQuestion);
 const nextActiveWord = (listWord) => {
   if (indexActiveQuestion >= listWord.length - 1) {
     indexActiveQuestion = 0;

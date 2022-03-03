@@ -1,5 +1,5 @@
 //Inicia funcionalidad de sección vocabulario
-import listWords from "./db.js";
+
 //Referencia al Html
 const categoria = document.getElementById("categoria");
 const order = document.getElementById("order");

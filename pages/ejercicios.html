@@ -139,7 +139,13 @@
             </div>
             <form action="">
               <div class="cotenedor-form">
-                <input type="text" name="" autofocus id="answer" />
+                <input
+                  type="text"
+                  name="answer"
+                  id="answer"
+                  autofocus
+                  autocomplete="off"
+                />
                 <button class="btn-listening btn-regular" type="submit">
                   Comprobar respuesta
                 </button>
@@ -183,11 +189,11 @@
             </div>
             <div class="form-group">
               <label for="cantidad">Escoge el numero de palabras:</label>
-              <input name="cantidad" type="number" />
+              <input name="cantidad" id="cantidad" type="number" />
             </div>
           </div>
 
-          <button class="btn-regular" type="submit" id="btnListening">
+          <button class="btn-regular" type="submit" id="btnForm">
             Comenzar
           </button>
         </form>
@@ -198,8 +204,9 @@
       src="https://kit.fontawesome.com/0cd8dbf3de.js"
       crossorigin="anonymous"
     ></script>
+    <script src="../js/db.js"></script>
+    <script src="../js/listening.js"></script>
     <script src="../js/ejercicios.js"></script>
-    <script type="module" src="../js/listening.js"></script>
     <script src="../js/menu.js"></script>
     <!-- <script src="../js/index.js"></script> -->
   </body>

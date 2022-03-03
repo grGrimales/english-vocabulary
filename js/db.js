@@ -64,8 +64,8 @@ let listWords = [
       "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image:
       "https://clinicabarreiro.es/wp-content/uploads/2021/09/beneficios-de-sonreir-800x450-1.jpg",
-    numberReproductions: 20,
-    hit: 18,
+    numberReproductions: 18,
+    hit: 20,
     category: ["saludo"],
   },
   {
@@ -76,8 +76,8 @@ let listWords = [
       "https://res.cloudinary.com/dvmpfgqrs/video/upload/v1636305522/phrase/audio/hello_jbfxag.mp3",
     image:
       "https://www.caracteristicas.co/wp-content/uploads/2018/10/lluvia-3-e1581819535291.jpg",
-    numberReproductions: 10,
-    hit: 8,
+    numberReproductions: 3,
+    hit: 15,
     category: ["clima"],
   },
   {
@@ -106,5 +106,3 @@ let listWords = [
     category: ["saludo"],
   },
 ];
-
-export default listWords;
