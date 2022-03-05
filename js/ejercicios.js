@@ -3,13 +3,14 @@
  */
 const modal = document.getElementById("myModal");
 const actividadUno = document.querySelector("#actividad-uno");
-const btn = document.getElementById("myBtn");
 const span = document.getElementsByClassName("close")[0];
 const sectionEjercicios = document.querySelector(".section-ejercicios");
 const btnForm = document.querySelector("#btnForm");
 const categoria = document.querySelector("#categoria");
 const order = document.querySelector("#order");
 const cantidad = document.querySelector("#cantidad");
+const contError = document.querySelector(".cont-err");
+const formEjercicios = document.querySelector("#formEjercicios");
 
 /*
  *Declaración de variables
@@ -19,7 +20,7 @@ let orderedListing = [];
 
 let categoriaInput = "";
 let orderInput = "";
-let cantidadInput = "";
+let cantidadInput;
 
 /*
  *Función para cerrar la ventana modal cuando hace click fuera del modal
@@ -28,6 +29,13 @@ let cantidadInput = "";
 window.onclick = function (e) {
   if (e.target == modal) {
     modal.style.display = "none";
+  }
+
+  if (e.target == modalListening) {
+    modalListening.style.display = "none";
+    clearLocalStorage();
+    sectionListening.classList.add("ocultar");
+    sectionEjercicios.classList.remove("ocultar");
   }
 };
 
@@ -52,6 +60,37 @@ const saveFilteredList = (questionList) => {
 };
 
 /*
+ *Función para mostra error en el formulario
+ */
+const showErrrorForm = (error) => {
+  const messageError = document.createElement("p");
+  messageError.textContent = error;
+  contError.appendChild(messageError);
+  contError.classList.add("error");
+  setTimeout(() => {
+    messageError.remove();
+    contError.classList.remove("error");
+  }, 2000);
+
+  console.log(messageError);
+  console.log(contError);
+};
+
+/*
+ *Función para verificar si ya existe el lista do preguntas
+ */
+const checkquestionListLocalStorage = () => {
+  questionList = JSON.parse(localStorage.getItem("questionList"));
+  if (questionList !== null) {
+    sectionEjercicios.classList.add("ocultar");
+    sectionListening.classList.remove("ocultar");
+    // activeQuestion = JSON.parse(localStorage.getItem("activeQuestion"));
+    // printAudioActive(activeQuestion);
+  }
+};
+
+checkquestionListLocalStorage();
+/*
  *Función para iniciar la actividad de listening
  */
 const startActiviy = (e) => {
@@ -60,26 +99,36 @@ const startActiviy = (e) => {
   orderInput = order.value;
   cantidadInput = cantidad.value;
 
-  console.log(categoriaInput, orderInput, cantidadInput);
-  filterListQuestion(listWords);
-  if (orderInput === "aleatorio") {
-    randomOrder(listquestion);
-    filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
-    console.table(listquestion);
-  } else if (orderInput === "menos reproducidas") {
-    orderByLeastPlayed(listquestion);
-    filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
+  if (
+    categoriaInput === "--Seleccione--" ||
+    (orderInput === "--Seleccione--" && cantidadInput < 1)
+  ) {
+    showErrrorForm("* Todos los campos son obligatorios");
+    console.log("no valido");
+  } else if (categoriaInput != "" && orderInput != "" && cantidadInput < 1) {
+    showErrrorForm("* Debe seleccionar un número mayor a 1");
+  } else {
+    filterListQuestion(listWords);
+    if (orderInput === "aleatorio") {
+      randomOrder(listquestion);
+      filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
+    } else if (orderInput === "menos reproducidas") {
+      orderByLeastPlayed(listquestion);
+      filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
+    } else if (orderInput === "menos aciertos") {
+      orderByHit(listquestion);
+      filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
+    }
 
-    console.table(listquestion);
-  } else if (orderInput === "menos aciertos") {
-    orderByHit(listquestion);
-    filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
-    console.table(listquestion);
+    closeModal();
+    formEjercicios.reset();
+
+    sectionEjercicios.classList.add("ocultar");
+    sectionListening.classList.remove("ocultar");
+
+    initValueParameters(listquestion);
+    printAudioActive(activeQuestion);
   }
-
-  closeModal();
-  sectionEjercicios.classList.add("ocultar");
-  sectionListening.classList.remove("ocultar");
 };
 
 /*
@@ -139,7 +188,6 @@ const orderByHit = (filterList) => {
 const filteredByNumberOfSelectedQuestions = (filterList, cantidadInput) => {
   orderedListing = filterList.slice(0, cantidadInput);
   saveFilteredList(orderedListing);
-  console.log(orderedListing);
 };
 
 /*

@@ -156,14 +156,23 @@
         </div>
       </section>
     </main>
+    <!-- Ventana modal Formulario -->
+    <div id="modalListening" class="modal">
+      <!-- Contenido del modal -->
+      <div class="modal-content">
+        <span class="close listening">&times;</span>
+        <p>Excelente has finalizado el ejercicio.</p>
+        <p>¡Sigue mejorando tu Ingles!</p>
+      </div>
+    </div>
 
-    <!-- Ventana modal -->
+    <!-- Ventana modal Formulario -->
     <div id="myModal" class="modal">
       <!-- Contenido del modal -->
       <div class="modal-content">
         <span class="close">&times;</span>
 
-        <form class="contenedor-form-vocabulary">
+        <form class="contenedor-form-vocabulary" id="formEjercicios">
           <div class="contenedor-select-modal">
             <div class="form-group">
               <label for="categoria">Seleccionar categoría:</label>
@@ -197,6 +206,7 @@
             Comenzar
           </button>
         </form>
+        <div class="cont-err"></div>
       </div>
     </div>
 

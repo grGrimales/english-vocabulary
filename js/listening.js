@@ -10,9 +10,13 @@ const contenedorMessage = document.querySelector(".contenedor-msj");
 const error = document.querySelector("#error");
 const btnReturn = document.querySelector(".btn-return");
 
+const modalListening = document.getElementById("modalListening");
+const spanListening = document.getElementsByClassName("listening")[0];
+
 /* Declaración variables */
 let activeQuestion = "";
 let indexActiveQuestion;
+let questionList = [];
 
 let answerInput = "";
 
@@ -23,12 +27,17 @@ const evaluateAnswer = (e) => {
   e.preventDefault();
   answerInput = answer.value;
 
+  // if (answerInput === "") {
+  //   console.log("Debes ingresar un valor");
+  //   showErrrorInput("Debes ingresar un valor");
+  //   return;
+  // }
   const isCorrect =
     answerInput && answerInput.toLowerCase() === activeQuestion.englishWord;
 
   isCorrect
     ? isSuccessful("Respuesta Exitosa")
-    : showErrror("Solución correcta:");
+    : showErrror("Respuesta incorrecta");
 };
 
 /**
@@ -39,7 +48,8 @@ const isSuccessful = (messagge) => {
   messagesuccess.innerHTML = ` <i class="fa-solid fa-check"></i> ${messagge}  `;
   contenedorMessage.classList.add("success");
   contenedorMessage.appendChild(messagesuccess);
-  nextActiveWord(listWords);
+  questionList = JSON.parse(localStorage.getItem("questionList"));
+  nextActiveWord(questionList);
   answer.value = "";
 
   setTimeout(() => {
@@ -50,15 +60,15 @@ const isSuccessful = (messagge) => {
 };
 
 /**
- * Función para mostrar mensaje de error
+ * Función para mostrar mensaje de error cuando la respuesta es incorrecta
  */
 const showErrror = (error) => {
   const messageError = document.createElement("p");
-  messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${error}  ${activeQuestion.englishWord} `;
+  messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${error} ${activeQuestion.englishWord}`;
   contenedorMessage.classList.add("error");
   contenedorMessage.appendChild(messageError);
-  //contenedorMessage.textContent = `<i id="error" class="fa-solid fa-xmark"></i>`;
-  nextActiveWord(listWords);
+  questionList = JSON.parse(localStorage.getItem("questionList"));
+  nextActiveWord(questionList);
   answer.value = "";
 
   setTimeout(() => {
@@ -68,29 +78,42 @@ const showErrror = (error) => {
 };
 
 /**
+ * Función para mostrar mensaje de error cuando el campo esta vacío
+ */
+const showErrrorInput = (error) => {
+  const messageError = document.createElement("p");
+  messageError.textContent = error;
+  contenedorMessage.classList.add("error");
+  contenedorMessage.appendChild(messageError);
+
+  setTimeout(() => {
+    messageError.remove();
+    contenedorMessage.classList.remove("error");
+  }, 1000);
+};
+/**
  * Función para iniciar los valores de palabra activa y el index
  */
-const initValueParameters = () => {
-  indexActiveQuestion = parseInt(localStorage.getItem("indexActiveQuestion"));
-  activeQuestion = localStorage.getItem("activeQuestion");
-
-  if (!indexActiveQuestion) indexActiveQuestion = 0;
-
-  if (!activeQuestion) activeQuestion = listWords[indexActiveQuestion];
+const initValueParameters = (listquestion) => {
+  indexActiveQuestion = 0;
+  activeQuestion = listquestion[indexActiveQuestion];
+  saveValueParameters(indexActiveQuestion, activeQuestion);
 };
-
-initValueParameters();
 
 /**
  * Función para  Actualizar en el local storage los valores de palabra activa y el index
  */
 const nextActiveWord = (listWord) => {
   if (indexActiveQuestion >= listWord.length - 1) {
-    indexActiveQuestion = 0;
-    activeQuestion = listWord[indexActiveQuestion];
-    console.log(activeQuestion);
-    saveValueParameters(indexActiveQuestion, activeQuestion);
-    printAudioActive(activeQuestion);
+    // indexActiveQuestion = 0;
+    // activeQuestion = listWord[indexActiveQuestion];
+    // saveValueParameters(indexActiveQuestion, activeQuestion);
+    // printAudioActive(activeQuestion);
+    console.log("Se termino el juego");
+    setTimeout(() => {
+      openModalListening();
+    }, 2000);
+
     return;
   }
   if (indexActiveQuestion < listWord.length) {
@@ -99,9 +122,6 @@ const nextActiveWord = (listWord) => {
     saveValueParameters(indexActiveQuestion, activeQuestion);
     printAudioActive(activeQuestion);
   }
-
-  console.log(indexActiveQuestion);
-  console.log(activeQuestion);
 };
 
 /**
@@ -118,9 +138,8 @@ const saveValueParameters = (indexToUpdate, wordsToUpdate) => {
 const printAudioActive = (activeQuestion) => {
   const { audio } = activeQuestion;
   audioListening.src = audio;
+  answer.focus();
 };
-
-printAudioActive(activeQuestion);
 
 /**
  * Función para cerrar la actividad
@@ -129,9 +148,34 @@ const closeListening = () => {
   console.log("funciona");
 };
 
+/*
+ *Función para abrir la ventana modal una vez que finaliza el listado de preguntas
+ */
+const openModalListening = () => {
+  modalListening.style.display = "block";
+};
+
+/*
+ *Función para cerrar la ventana modal de listening
+ */
+const closeModalListening = () => {
+  modalListening.style.display = "none";
+  clearLocalStorage();
+  sectionListening.classList.add("ocultar");
+  sectionEjercicios.classList.remove("ocultar");
+};
+
+/*
+ *Función para borrar el localStorage
+ */
+
+const clearLocalStorage = () => {
+  localStorage.clear();
+};
 /**
  * /Eventos
  */
 btnListening.addEventListener("click", evaluateAnswer);
 btnListening.addEventListener("onkeypress", evaluateAnswer);
 btnReturn.addEventListener("click", closeListening);
+spanListening.addEventListener("click", closeModalListening);

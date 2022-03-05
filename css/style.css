@@ -425,6 +425,7 @@ iframe {
 }
 
 /* Ventana modal */
+
 .modal {
   margin-top: 3rem;
   display: none;
@@ -462,6 +463,12 @@ iframe {
   cursor: pointer;
 }
 
+.cont-err {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  text-align: center;
+}
 /*Listening*/
 
 .contenedor-boton {
