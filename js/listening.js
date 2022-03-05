@@ -27,11 +27,11 @@ const evaluateAnswer = (e) => {
   e.preventDefault();
   answerInput = answer.value;
 
-  // if (answerInput === "") {
-  //   console.log("Debes ingresar un valor");
-  //   showErrrorInput("Debes ingresar un valor");
-  //   return;
-  // }
+  if (answerInput === "") {
+    console.log("Debes ingresar un valor");
+    showErrrorInput("Debes ingresar un valor");
+    return;
+  }
   const isCorrect =
     answerInput && answerInput.toLowerCase() === activeQuestion.englishWord;
 
@@ -85,12 +85,13 @@ const showErrrorInput = (error) => {
   messageError.textContent = error;
   contenedorMessage.classList.add("error");
   contenedorMessage.appendChild(messageError);
-
+  printAudioActive(activeQuestion);
   setTimeout(() => {
     messageError.remove();
     contenedorMessage.classList.remove("error");
   }, 1000);
 };
+
 /**
  * Función para iniciar los valores de palabra activa y el index
  */
@@ -105,11 +106,6 @@ const initValueParameters = (listquestion) => {
  */
 const nextActiveWord = (listWord) => {
   if (indexActiveQuestion >= listWord.length - 1) {
-    // indexActiveQuestion = 0;
-    // activeQuestion = listWord[indexActiveQuestion];
-    // saveValueParameters(indexActiveQuestion, activeQuestion);
-    // printAudioActive(activeQuestion);
-    console.log("Se termino el juego");
     setTimeout(() => {
       openModalListening();
     }, 2000);
@@ -145,7 +141,9 @@ const printAudioActive = (activeQuestion) => {
  * Función para cerrar la actividad
  */
 const closeListening = () => {
-  console.log("funciona");
+  clearLocalStorage();
+  sectionListening.classList.add("ocultar");
+  sectionEjercicios.classList.remove("ocultar");
 };
 
 /*

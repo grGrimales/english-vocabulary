@@ -52,6 +52,7 @@ const openModal = () => {
 const closeModal = () => {
   modal.style.display = "none";
 };
+
 /**
  * Función para  guardar el listado de pregunta de acuerdo a lo seleccionado en el formulario
  */
