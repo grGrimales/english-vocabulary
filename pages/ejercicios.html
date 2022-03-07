@@ -106,15 +106,15 @@
 
           <!--Ejercicio dos-->
 
-          <div class="contenedor-fila">
+          <div id="actividad-dos" class="contenedor-fila">
             <img src="../img/imagen-recordando.png" alt="Persona practicando" />
-            <a href="remember.html"
-              >Remember words. Juega a recordar palabras ya vistas.</a
-            >
+
+            Remember words. Juega a recordar palabras ya vistas.
           </div>
         </div>
       </section>
 
+      <!--Sección de listening + writting-->
       <section
         class="section-listening ocultar animate__animated animate__fadeIn"
       >
@@ -155,8 +155,38 @@
           <div class="contenedor-msj"></div>
         </div>
       </section>
+
+      <!--Seccion de remember words-->
+      <section
+        class="section-remember-words ocultar animate__animated animate__fadeIn"
+      >
+        <h1 class="text-center">Remember words</h1>
+        <div class="contenedor-boton">
+          <button id="btnReturnRemember" class="btn-return" type="submit">
+            <i class="fa-solid fa-rotate-left"></i>
+            Regresar
+          </button>
+        </div>
+        <div class="contenedor-remember-words">
+          <progress value="70" max="100">70 %</progress>
+          <p>Traduce la siguiente palabra y escribela en el recuadro:</p>
+
+          <ul class="listado-words">
+            <li class="active">Summer</li>
+          </ul>
+
+          <form action="">
+            <input type="text" name="" autofocus />
+            <button class="btn-listening btn-regular" type="submit">
+              Comprobar respuesta
+            </button>
+            <div class="cotenedor-form"></div>
+          </form>
+        </div>
+      </section>
     </main>
-    <!-- Ventana modal Formulario -->
+
+    <!-- Ventana modal listening -->
     <div id="modalListening" class="modal">
       <!-- Contenido del modal -->
       <div class="modal-content">
@@ -166,7 +196,46 @@
       </div>
     </div>
 
-    <!-- Ventana modal Formulario -->
+    <!-- Ventana modal Formulario ejercicio dos -->
+    <div id="modalRemember" class="modal">
+      <!-- Contenido del modal -->
+      <div class="modal-content">
+        <span class="remember">&times;</span>
+        <form class="contenedor-form-vocabulary" id="formRemember">
+          <div class="contenedor-select-modal">
+            <div class="form-group">
+              <label for="categoriaRemember">Seleccionar categoría:</label>
+              <select name="categoriaRemember" id="categoriaRemember">
+                <option disabled selected>--Seleccione--</option>
+
+                <option value="clima">Clima</option>
+                <option value="oficina">Oficina</option>
+                <option value="saludo">Saludo</option>
+                <option value="familia">Familia</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="cantidadRemember"
+                >Escoge el numero de palabras:</label
+              >
+              <input
+                name="cantidadRemember"
+                id="cantidadRemember"
+                type="number"
+              />
+            </div>
+          </div>
+
+          <button class="btn-regular" type="submit" id="btnFormRemember">
+            Comenzar
+          </button>
+          <div class="cont-err-dos"></div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Ventana modal Formulario ejercicio uno-->
     <div id="myModal" class="modal">
       <!-- Contenido del modal -->
       <div class="modal-content">
@@ -215,6 +284,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="../js/db.js"></script>
+    <script src="../js/remember.js"></script>
     <script src="../js/listening.js"></script>
     <script src="../js/ejercicios.js"></script>
     <script src="../js/menu.js"></script>

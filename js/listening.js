@@ -1,4 +1,4 @@
-/* Inicia funcionalidad de sección listning + Writing */
+/* Inicia funcionalidad de sección listening + Writing */
 
 /* Referencia al Html*/
 
@@ -9,7 +9,6 @@ const sectionListening = document.querySelector(".section-listening");
 const contenedorMessage = document.querySelector(".contenedor-msj");
 const error = document.querySelector("#error");
 const btnReturn = document.querySelector(".btn-return");
-
 const modalListening = document.getElementById("modalListening");
 const spanListening = document.getElementsByClassName("listening")[0];
 
@@ -170,10 +169,10 @@ const closeModalListening = () => {
 const clearLocalStorage = () => {
   localStorage.clear();
 };
-/**
+
+/*
  * /Eventos
  */
 btnListening.addEventListener("click", evaluateAnswer);
 btnListening.addEventListener("onkeypress", evaluateAnswer);
 btnReturn.addEventListener("click", closeListening);
-spanListening.addEventListener("click", closeModalListening);

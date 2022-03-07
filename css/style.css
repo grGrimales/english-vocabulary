@@ -294,6 +294,7 @@ select:focus {
   font-weight: bold;
   color: #fff;
   transition-duration: 0.4s;
+  cursor: pointer;
 }
 
 .btn-regular:hover {
@@ -450,7 +451,8 @@ iframe {
 }
 
 .close,
-.listening {
+.listening,
+.remember {
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -460,13 +462,16 @@ iframe {
 .close:hover,
 .close:focus,
 .listening:hover,
-.listening:focus {
+.listening:focus,
+.remember:hover,
+.remember:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
 
-.cont-err {
+.cont-err,
+.cont-err-dos {
   margin-top: 1rem;
   padding: 0.5rem;
   border-radius: 1rem;
@@ -548,6 +553,25 @@ input:focus {
   justify-content: space-evenly;
   height: 400px;
 }
+
+/*Login*/
+.contenedor-login {
+  width: 100%;
+}
+
+.form-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-login a {
+  color: #008fce;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
 /*Media querys*/
 
 @media screen and (max-width: 760px) {
@@ -676,6 +700,13 @@ input:focus {
 
   .btn-listening {
     width: 100%;
+  }
+
+  /*Login*/
+  .contenedor-login {
+    margin: 0 auto;
+
+    width: 50%;
   }
 }
 

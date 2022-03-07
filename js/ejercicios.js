@@ -37,6 +37,13 @@ window.onclick = function (e) {
     sectionListening.classList.add("ocultar");
     sectionEjercicios.classList.remove("ocultar");
   }
+
+  if (e.target == modalRemember) {
+    modalRemember.style.display = "none";
+    clearLocalStorage();
+    sectionRememberWords.classList.add("ocultar");
+    sectionEjercicios.classList.remove("ocultar");
+  }
 };
 
 /*
@@ -72,21 +79,16 @@ const showErrrorForm = (error) => {
     messageError.remove();
     contError.classList.remove("error");
   }, 2000);
-
-  console.log(messageError);
-  console.log(contError);
 };
 
 /*
- *Función para verificar si ya existe el lista do preguntas
+ *Función para verificar si ya existe el listado preguntas de listening + writting
  */
 const checkquestionListLocalStorage = () => {
   questionList = JSON.parse(localStorage.getItem("questionList"));
   if (questionList !== null) {
     sectionEjercicios.classList.add("ocultar");
     sectionListening.classList.remove("ocultar");
-    // activeQuestion = JSON.parse(localStorage.getItem("activeQuestion"));
-    // printAudioActive(activeQuestion);
   }
 };
 
@@ -100,16 +102,13 @@ const startActiviy = (e) => {
   orderInput = order.value;
   cantidadInput = cantidad.value;
 
-  if (
-    categoriaInput === "--Seleccione--" ||
-    (orderInput === "--Seleccione--" && cantidadInput < 1)
-  ) {
+  if (categoriaInput === "--Seleccione--" || orderInput === "--Seleccione--") {
     showErrrorForm("* Todos los campos son obligatorios");
-    console.log("no valido");
-  } else if (categoriaInput != "" && orderInput != "" && cantidadInput < 1) {
+  } else if (cantidadInput < 1) {
     showErrrorForm("* Debe seleccionar un número mayor a 1");
   } else {
     filterListQuestion(listWords);
+
     if (orderInput === "aleatorio") {
       randomOrder(listquestion);
       filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
@@ -133,7 +132,7 @@ const startActiviy = (e) => {
 };
 
 /*
- *Función para filtar la lista de preguntas por categoria
+ *Función para filtrar la lista de preguntas por categoria
  */
 
 const filterListQuestion = (listWords) => {
@@ -191,6 +190,20 @@ const filteredByNumberOfSelectedQuestions = (filterList, cantidadInput) => {
   saveFilteredList(orderedListing);
 };
 
+/*
+ *Función para verificar si ya existe el listado preguntas de remember words
+ */
+const checkquestionListLocalStorageRemember = () => {
+  filteredQuestionList = JSON.parse(
+    localStorage.getItem("filteredQuestionList")
+  );
+  if (filteredQuestionList !== null) {
+    sectionEjercicios.classList.add("ocultar");
+    sectionRememberWords.classList.remove("ocultar");
+  }
+};
+
+checkquestionListLocalStorageRemember();
 /*
  *Eventos
  */
