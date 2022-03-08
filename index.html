@@ -44,7 +44,7 @@
         <h4 class="titulo-sidebar">Vocabulary</h4>
       </div>
 
-      <div class="options__menu">
+      <div class="options__menu ">
         <a href="#" class="selected">
           <div class="option">
             <i class="fas fa-home" title="Inicio"></i>
@@ -52,8 +52,8 @@
           </div>
         </a>
 
-        <a href="./pages/login.html" >
-          <div class="option">
+        <a href="./pages/login.html"  >
+          <div class="option ">
             <i class="fas fa-sign-in-alt" title="Inicio"></i>
          
             <h4>Iniciar sesión</h4>
@@ -94,6 +94,9 @@
     <main class="main-home animate__animated animate__fadeIn">
       <h1 class="text-center">¡Hola bienvenido a English Vocabulary!</h1>
       <section class="section-home">
+        <button class="btn-regular btn-prueba">  <i class="fas fa-sign-in-alt" title="Inicio"></i> Prueba </button>
+
+        <button class="btn-regular btn-home">  <i class="fas fa-sign-in-alt" title="Inicio"></i> Iniciar sesión  </button>
         <div class="contenedor-img">
           <img
             class="img-home"
@@ -133,6 +136,7 @@
             como funciona el cerebro!
           </p>
         </div>
+
       </section>
 
       <!-- 
@@ -153,5 +157,30 @@
       /> -->
     </main>
 
+       <!-- Ventana modal para login -->
+
+       <div id="modalLogin" class="modal">
+        <!-- Contenido del modal -->
+        <div class="modal-content">
+          <span class="login">&times;</span>
+  
+          <div class="contenedor-login">
+            <h2>Iniciar  sesión</h2>
+            <form action="" class="form-login">
+                <label for="email">Ingrese su correo:</label>
+                <input name="email" id="email" type="email" autofocus>
+         
+                <label for="password">Ingrese su contraseña:</label>
+                <input name="password" id="password" type="password">
+         
+                <button type="submit" class="btn-regular btn-login">Ingresar</button>
+                <a href="register.html">¿No tienes cuenta? Ingresa Aquí</a>
+            </form>
+        </div>
+        
+        </div>
+      </div>
+     
+      <script src="js/auth.js"></script>
     <script src="./js/menu.js"></script>
 </html>
