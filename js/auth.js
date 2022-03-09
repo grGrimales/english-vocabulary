@@ -1,5 +1,5 @@
 /* Inicia funcionalidad de login */
-
+import { fetchSinToken } from "../js/fetch.js";
 /* Referencia al Html*/
 
 const btnLogin = document.querySelector(".btn-login");
@@ -9,31 +9,18 @@ const btnPrueba = document.querySelector(".btn-prueba");
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 const contenedorLogin = document.querySelector(".contenedor-login");
+const sectionHome = document.querySelector(".section-home");
 
 const modalLogin = document.getElementById("modalLogin");
 const spanLogin = document.getElementsByClassName("login")[0];
+const optionsMenu = document.querySelector(".options__menu");
 
 /* Declaración de variables*/
 const emailInput = "";
 const passwordInput = "";
-const baseUrl = "https://my-vocabulary-api.herokuapp.com/api";
 
-/* Función para realizar peticiones https sin token*/
-const fetchSinToken = (endpoint, data, method = "GET") => {
-  const url = `${baseUrl}/${endpoint}`;
-
-  if (method === "GET") {
-    return fetch(url);
-  } else {
-    return fetch(url, {
-      method,
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-  }
-};
+let token = "";
+let isLogged = false;
 
 /*
  *Función para abrir la ventana modal
@@ -52,7 +39,7 @@ const closeModalLogin = () => {
 /* Función para iniciar sesión*/
 const startLogin = async (e) => {
   e.preventDefault();
-  formData = {
+  const formData = {
     email: email.value,
     password: password.value,
   };
@@ -67,6 +54,11 @@ const startLogin = async (e) => {
   if (body.ok) {
     localStorage.setItem("token", body.user.token);
     showMessage("Inicio de sesión exitoso", "success");
+    isLogged = true;
+    localStorage.setItem("isLogged", isLogged);
+    printMenu();
+    sectionHome.classList.remove("ocultar");
+    contenedorLogin.classList.add("ocultar");
   } else {
     console.log("Ususario o contraseña incorrecta");
     showMessage("Ususario o contraseña incorrecta", "err");
@@ -93,14 +85,139 @@ const showMessage = (message, tipo) => {
     divMessage.remove();
   }, 2000);
 };
-const prueba = () => {
-  window.open("/english-vocabulary/pages/login.html");
+/* Función para crear menu*/
+
+const printMenu = () => {
+  let menu = document.createElement("div");
+
+  menu.innerHTML = `
+  <a href="" >
+  <div class="option">
+    <i class="fas fa-home" title="Inicio"></i>
+    <h4>Inicio</h4>
+  </div>
+</a>
+<a href="../pages/vocabulary.html">
+  <div class="option">
+    <i class="fas fa-chalkboard-teacher" title="Vocabulario"></i>
+    <h4>Vocabulario</h4>
+  </div>
+</a>
+
+<a href="../pages/ejercicios.html">
+  <div class="option">
+    <i class="fas fa-clipboard-list" title="Ejercicios"></i>
+    <h4>Ejercicios</h4>
+  </div>
+</a>
+
+<a href="../pages/videos.html">
+  <div class="option">
+    <i class="fas fa-video" title="Vídeos"></i>
+    <h4>Vídeos</h4>
+  </div>
+</a> 
+  `;
+
+  if (optionsMenu.lastElementChild) {
+    optionsMenu.lastElementChild.remove();
+  }
+  optionsMenu.appendChild(menu);
 };
+
+/* Función para verificar si el usuario esta logueado*/
+const verifyIsLogged = () => {
+  isLogged = localStorage.getItem("isLogged");
+  console.log(isLogged);
+  console.log(!isLogged);
+
+  if (isLogged) {
+    window.open("/english-vocabulary/index.html", "_self");
+    return;
+  }
+};
+
+/* Función para verificar si esxite el token en el localStorage*/
+const verifyTokenInLocalStorage = () => {
+  token = localStorage.getItem("token");
+
+  if (token != null) {
+    isLogged = true;
+    localStorage.setItem("isLogged", isLogged);
+    printMenu();
+    sectionHome.classList.remove("ocultar");
+    contenedorLogin.classList.add("ocultar");
+  } else {
+    isLogged = false;
+    localStorage.setItem("isLogged", isLogged);
+    contenedorLogin?.classList.remove("ocultar");
+    sectionHome?.classList.add("ocultar");
+  }
+};
+
+verifyTokenInLocalStorage();
+
 /*
  *Eventos
  */
-btnLogin.addEventListener("click", startLogin);
-btnHome.addEventListener("click", openModalLogin);
-btnPrueba.addEventListener("click", prueba);
+btnLogin?.addEventListener("click", startLogin);
+btnHome?.addEventListener("click", openModalLogin);
+btnPrueba?.addEventListener("click", prueba);
+spanLogin?.addEventListener("click", closeModalLogin);
 
-spanLogin.addEventListener("click", closeModalLogin);
+/* Inicia funcionalidad de register */
+
+/* Referencia al Html*/
+
+const rName = document.querySelector("#rName");
+const rEmail = document.querySelector("#rEmail");
+const rPassword = document.querySelector("#rPassword");
+const btnRegister = document.querySelector(".btn-register");
+
+/*
+ *Función para el registro
+ */
+
+const startRegister = async (e) => {
+  e.preventDefault();
+  const inputName = rName.value;
+  const inputEmail = rEmail.value;
+  const inputRegister = rPassword.value;
+
+  const formDataRegister = {
+    email: inputEmail,
+    name: inputName,
+    password: inputRegister,
+  };
+
+  const { email, name, password } = formDataRegister;
+
+  if (name === "" || email === "" || password === "") {
+    console.log("* Todos los campos son requqridos");
+    showMessage("* Todos los campos son requeridos", "err");
+    return;
+  }
+
+  const resp = await fetchSinToken("auth/register", formDataRegister, "POST");
+  const body = await resp.json();
+  if (body.ok) {
+    showMessage("Registro exitoso", "success");
+    localStorage.setItem("token", body.user.token);
+    isLogged = true;
+    localStorage.setItem("isLogged", isLogged);
+    printMenu();
+
+    setTimeout(() => {
+      window.open("/english-vocabulary/index.html", "_self");
+    }, 2000);
+  } else {
+    console.log("Registro fallido");
+    showMessage("Ususario o contraseña incorrecta", "err");
+  }
+};
+
+/*
+ *Eventos
+ */
+
+btnRegister?.addEventListener("click", startRegister);
