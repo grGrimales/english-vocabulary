@@ -97,21 +97,21 @@ const printMenu = () => {
     <h4>Inicio</h4>
   </div>
 </a>
-<a href="../pages/vocabulary.html">
+<a href="pages/vocabulary.html">
   <div class="option">
     <i class="fas fa-chalkboard-teacher" title="Vocabulario"></i>
     <h4>Vocabulario</h4>
   </div>
 </a>
 
-<a href="../pages/ejercicios.html">
+<a href="pages/ejercicios.html">
   <div class="option">
     <i class="fas fa-clipboard-list" title="Ejercicios"></i>
     <h4>Ejercicios</h4>
   </div>
 </a>
 
-<a href="../pages/videos.html">
+<a href="pages/videos.html">
   <div class="option">
     <i class="fas fa-video" title="Vídeos"></i>
     <h4>Vídeos</h4>
