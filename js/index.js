@@ -1,6 +1,8 @@
-//Inicia funcionalidad de sección vocabulario
+/**Inicia funcionalidad de sección vocabulario*/
 
-//Referencia al Html
+import { fetchConToken } from "../js/fetch.js";
+
+/*Referencia al Html*/
 const categoria = document.getElementById("categoria");
 const order = document.getElementById("order");
 const btnInicio = document.querySelector("#btnInicio");
@@ -15,16 +17,17 @@ const probar = document.getElementById("probar");
 const categorySelected = document.querySelector("#category-selected");
 const btnReturn = document.querySelector(".btn-return");
 
-//Declaración variables -
+/*Declaración variables */
 
 let selectCategoria = "";
 let selectOrder = "";
 let filteredWordList = [];
-let wordActive = {};
 let currentIndexStorage = 0;
+let wordActive = {};
 let listToShow = [];
+let listWords = JSON.parse(localStorage.getItem("listWords"));
 
-//Función para captar valor de input
+/*Función para captar valor de input*/
 const valueSelectCategoria = () => {
   selectCategoria = categoria.value;
   localStorage.setItem("selectCategoria", selectCategoria);
@@ -34,15 +37,37 @@ const valueSelectOrder = () => {
   selectOrder = order.value;
 };
 
-//Función para devolver el array ordenado de forma aleatoria.
+/* Función para crear select*/
 
+const printSelect = async () => {
+  const resp = await fetchConToken("category", {});
+
+  const body = await resp.json();
+
+  const categorys = body.categorys;
+
+  for (let i = 0; i < categorys.length; i++) {
+    let option = document.createElement("option");
+
+    option.value = categorys[i].toLowerCase();
+    option.text = categorys[i];
+    categoria.appendChild(option);
+  }
+};
+printSelect();
+
+/*
+ *Función para devolver el array ordenado de forma aleatoria.
+ */
 const randomOrder = (inputArray) => {
   const ramdonList = inputArray.sort(() => Math.random() - 0.5);
   localStorage.setItem("filteredWordList", JSON.stringify(ramdonList));
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
-//Función para ordenar el array por las palabras menos escuchadas.
+/*
+ *Función para ordenar el array por las palabras menos escuchadas.
+ */
 const orderByLeastPlayed = (inputArray) => {
   filteredWordList = inputArray.sort((a, b) => {
     if (a.numberReproductions > b.numberReproductions) {
@@ -57,13 +82,15 @@ const orderByLeastPlayed = (inputArray) => {
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
-//Función para ordenar el array por las palabras con menos aciertos
+/*
+ *Función para ordenar el array por las palabras con menos aciertos
+ */
 const orderByHit = (inputArray) => {
   filteredWordList = inputArray.sort((a, b) => {
-    if (a.hit > b.hit) {
+    if (a.numberSuccessful > b.numberSuccessful) {
       return 1;
     }
-    if (a.hit < b.hit) {
+    if (a.numberSuccessful < b.numberSuccessful) {
       return -1;
     }
     return 0;
@@ -72,24 +99,26 @@ const orderByHit = (inputArray) => {
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
-//Función para mostrar  la palabra activa en el HTML
-
+/*
+ *Función para mostrar  la palabra activa en el HTML
+ */
 const printActiveWord = (listWords) => {
-  printListWord(listWords);
-  sectionForm.classList.add("ocultar");
-  sectionActividad.classList.remove("ocultar");
-  let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
+  if (listWords) {
+    printListWord(listWords);
+    sectionForm.classList.add("ocultar");
+    sectionActividad.classList.remove("ocultar");
+    let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
 
-  wordActiveStorage !== {}
-    ? (wordActive = wordActiveStorage)
-    : (wordActive = listWords[0]);
+    wordActiveStorage !== {}
+      ? (wordActive = wordActiveStorage)
+      : (wordActive = listWords[0]);
 
-  const { englishWord, audio, spanishWord, image } = wordActive;
-  audioHtml.src = audio;
-  const activeWord = document.createElement("div");
-  activeWord.setAttribute("id", "idActiveWord");
+    const { englishWord, audio, spanishWord, img } = wordActive;
+    audioHtml.src = audio;
+    const activeWord = document.createElement("div");
+    activeWord.setAttribute("id", "idActiveWord");
 
-  activeWord.innerHTML = `
+    activeWord.innerHTML = `
 
   <ul class="active-word">
     <li class="word-english">
@@ -99,13 +128,25 @@ const printActiveWord = (listWords) => {
     <li  class="word-spanish">${spanishWord}</li>
   </ul>
   <div class="img-word">
-    <img src="${image}" />
+    <img src="${img}" />
   </div>`;
 
-  contenedorActiveWord.append(activeWord);
+    contenedorActiveWord.append(activeWord);
+  }
+  // } else {
+  //   Swal.fire({
+  //     icon: "error",
+  //     title: "Debe Iniciar sesión",
+  //     text: "Inicie sesión",
+  //     color: "#1bb1e6",
+  //     confirmButtonColor: "#f77f00",
+  //   });
+  // }
 };
 
-//Función para mostrar  el listado en el HTML
+/*
+ *Función para mostrar  el listado en el HTML
+ */
 const printListWord = (listWords) => {
   let wordActiveStorage = JSON.parse(localStorage.getItem("wordActive"));
 
@@ -133,17 +174,6 @@ const printListWord = (listWords) => {
   });
 };
 
-//Función para verificar si hay informacion en el localStorage
-
-const checkInformationLocalStorage = () => {
-  filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
-  if (filteredWordList !== null) {
-    printActiveWord(filteredWordList);
-  }
-};
-
-checkInformationLocalStorage();
-
 //Función pra imprimir la categoría seleccionada
 
 const printCategory = () => {
@@ -151,7 +181,9 @@ const printCategory = () => {
   categorySelected.textContent = selectCategoriaStorage?.toUpperCase();
 };
 
-//Función al hacer submit para inicair actividad de voculario
+/*
+ *Función al hacer submit para inicair actividad de voculario
+ */
 const startActivity = (e) => {
   e.preventDefault();
   valueSelectCategoria();
@@ -173,38 +205,62 @@ const startActivity = (e) => {
   listToShow = [];
   filteredWordList = [];
 
-  listWords.forEach((vocabulary) => {
-    if (vocabulary.category.includes(selectCategoria)) {
-      listToShow.push(vocabulary);
+  if (listWords) {
+    listWords.forEach((vocabulary) => {
+      if (vocabulary.category.includes(selectCategoria)) {
+        listToShow.push(vocabulary);
+      }
+    });
+
+    localStorage.setItem("listToShow", JSON.stringify(listToShow));
+    listToShow = JSON.parse(localStorage.getItem("listToShow"));
+
+    if (selectOrder === "aleatorio") {
+      randomOrder(listToShow);
+      filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+      localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+      printActiveWord(filteredWordList);
+    } else if (selectOrder === "numberReproductions") {
+      // listToShow = JSON.parse(localStorage.getItem("listToShow"));
+      orderByLeastPlayed(listToShow);
+      filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+      localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+      printActiveWord(filteredWordList);
+    } else if (selectOrder === "numberSuccessful") {
+      // listToShow = JSON.parse(localStorage.getItem("listToShow"));
+      orderByHit(listToShow);
+      filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+      localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
+      printActiveWord(filteredWordList);
     }
-  });
 
-  localStorage.setItem("listToShow", JSON.stringify(listToShow));
-
-  if (selectOrder === "aleatorio") {
-    listToShow = JSON.parse(localStorage.getItem("listToShow"));
-    randomOrder(listToShow);
-    filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
-    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    printActiveWord(filteredWordList);
-  } else if (selectOrder === "menos reproducidas") {
-    listToShow = JSON.parse(localStorage.getItem("listToShow"));
-    orderByLeastPlayed(listToShow);
-    filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
-    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    printActiveWord(filteredWordList);
-  } else if (selectOrder === "menos aciertos") {
-    listToShow = JSON.parse(localStorage.getItem("listToShow"));
-    orderByHit(listToShow);
-    filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
-    localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
-    printActiveWord(filteredWordList);
+    printCategory();
+  } else if (!listWords) {
+    Swal.fire({
+      icon: "error",
+      title: "Debe Iniciar sesión",
+      text: "Inicie sesión",
+      color: "#1bb1e6",
+      confirmButtonColor: "#f77f00",
+    });
   }
-
-  printCategory();
 };
 
 printCategory();
+
+/*
+ *Función para verificar si hay informacion en el localStorage
+ */
+const checkInformationLocalStorage = () => {
+  filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
+  if (filteredWordList !== null || filteredWordList !== []) {
+    printActiveWord(filteredWordList);
+  } else {
+    return;
+  }
+};
+
+checkInformationLocalStorage();
 
 /* Función para ocultar o mostrar palabra en español*/
 const hideWordSpanish = (e) => {
@@ -272,7 +328,9 @@ const changeActiveWord = () => {
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
-// Función para reiniciar valores de las variables
+/*
+ * Función para reiniciar valores de las variables
+ */
 const resetValores = () => {
   selectCategoria = "";
   selectOrder = "";
@@ -280,20 +338,23 @@ const resetValores = () => {
   wordActive = {};
   currentIndexStorage = 0;
   localStorage.setItem("currentIndex", currentIndexStorage);
-
   localStorage.setItem("wordActive", JSON.stringify(wordActive));
 
   categoria.value = "--Seleccione--";
   order.value = "--Seleccione--";
 };
 
-/**
+/*
  * Reinciar variables y retornar al formulario
  */
 const returnForm = (e) => {
   e.preventDefault();
   stopAudio();
-  localStorage.clear();
+  // localStorage.clear();
+  localStorage.removeItem("listToShow");
+  localStorage.removeItem("filteredWordList");
+  localStorage.removeItem("selectCategoria");
+
   resetValores();
   contenedorActiveWord.children[1].remove();
   sectionActividad.classList.add("ocultar");
@@ -308,7 +369,7 @@ const stopAudio = () => {
   audio.currentTime = 0;
 };
 
-/**
+/*
  * función para cambiar la palabra activa cuando demos clik en la palabra que queremos
  */
 const selectActiveWord = (e) => {

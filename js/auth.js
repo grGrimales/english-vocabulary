@@ -1,5 +1,5 @@
 /* Inicia funcionalidad de login */
-import { fetchSinToken } from "../js/fetch.js";
+import { fetchSinToken, fetchConToken } from "../js/fetch.js";
 /* Referencia al Html*/
 
 const btnLogin = document.querySelector(".btn-login");
@@ -20,7 +20,7 @@ const emailInput = "";
 const passwordInput = "";
 
 let token = "";
-let isLogged = false;
+export let isLogged = false;
 
 /*
  *Función para abrir la ventana modal
@@ -57,10 +57,10 @@ const startLogin = async (e) => {
     isLogged = true;
     localStorage.setItem("isLogged", isLogged);
     printMenu();
+    getListOfWords();
     sectionHome.classList.remove("ocultar");
     contenedorLogin.classList.add("ocultar");
   } else {
-    console.log("Ususario o contraseña incorrecta");
     showMessage("Ususario o contraseña incorrecta", "err");
   }
 };
@@ -85,6 +85,7 @@ const showMessage = (message, tipo) => {
     divMessage.remove();
   }, 2000);
 };
+
 /* Función para crear menu*/
 
 const printMenu = () => {
@@ -123,15 +124,14 @@ const printMenu = () => {
     optionsMenu.lastElementChild.remove();
   }
   optionsMenu.appendChild(menu);
+  console.log("menu");
 };
 
 /* Función para verificar si el usuario esta logueado*/
 const verifyIsLogged = () => {
   isLogged = localStorage.getItem("isLogged");
-  console.log(isLogged);
-  console.log(!isLogged);
 
-  if (isLogged) {
+  if (!isLogged) {
     window.open("/english-vocabulary/index.html", "_self");
     return;
   }
@@ -145,8 +145,8 @@ const verifyTokenInLocalStorage = () => {
     isLogged = true;
     localStorage.setItem("isLogged", isLogged);
     printMenu();
-    sectionHome.classList.remove("ocultar");
-    contenedorLogin.classList.add("ocultar");
+    sectionHome?.classList.remove("ocultar");
+    contenedorLogin?.classList.add("ocultar");
   } else {
     isLogged = false;
     localStorage.setItem("isLogged", isLogged);
@@ -215,6 +215,20 @@ const startRegister = async (e) => {
     showMessage("Ususario o contraseña incorrecta", "err");
   }
 };
+
+/*
+ *Función para traer el listado de palabras
+ */
+const getListOfWords = async () => {
+  const resp = await fetchConToken("vocabulary", {});
+
+  const body = await resp.json();
+
+  const listWords = body.vocabularies;
+
+  localStorage.setItem("listWords", JSON.stringify(listWords));
+};
+console.log(isLogged);
 
 /*
  *Eventos
