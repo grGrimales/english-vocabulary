@@ -1,10 +1,17 @@
+import { fetchConToken } from "../js/fetch.js";
+import {
+  sectionListening,
+  initValueParameters,
+  activeQuestion,
+  printAudioActive,
+} from "../js/listening.js";
 /*
  *Referencias al html
  */
 const modal = document.getElementById("myModal");
 const actividadUno = document.querySelector("#actividad-uno");
 const span = document.getElementsByClassName("close")[0];
-const sectionEjercicios = document.querySelector(".section-ejercicios");
+export const sectionEjercicios = document.querySelector(".section-ejercicios");
 const btnForm = document.querySelector("#btnForm");
 const categoria = document.querySelector("#categoria");
 const order = document.querySelector("#order");
@@ -15,12 +22,32 @@ const formEjercicios = document.querySelector("#formEjercicios");
 /*
  *Declaración de variables
  */
+let listWords = JSON.parse(localStorage.getItem("listWords"));
 let listquestion = [];
 let orderedListing = [];
 
 let categoriaInput = "";
 let orderInput = "";
 let cantidadInput;
+
+/* Función para crear select*/
+
+const printSelectActivity = async () => {
+  const resp = await fetchConToken("category", {});
+
+  const body = await resp.json();
+
+  const categorys = body.categorys;
+
+  for (let i = 0; i < categorys.length; i++) {
+    let option = document.createElement("option");
+
+    option.value = categorys[i].toLowerCase();
+    option.text = categorys[i];
+    categoria.appendChild(option);
+  }
+};
+printSelectActivity();
 
 /*
  *Función para cerrar la ventana modal cuando hace click fuera del modal
@@ -82,18 +109,6 @@ const showErrrorForm = (error) => {
 };
 
 /*
- *Función para verificar si ya existe el listado preguntas de listening + writting
- */
-const checkquestionListLocalStorage = () => {
-  questionList = JSON.parse(localStorage.getItem("questionList"));
-  if (questionList !== null) {
-    sectionEjercicios.classList.add("ocultar");
-    sectionListening.classList.remove("ocultar");
-  }
-};
-
-checkquestionListLocalStorage();
-/*
  *Función para iniciar la actividad de listening
  */
 const startActiviy = (e) => {
@@ -101,21 +116,25 @@ const startActiviy = (e) => {
   categoriaInput = categoria.value;
   orderInput = order.value;
   cantidadInput = cantidad.value;
+  const isLogged = localStorage.getItem("isLogged");
 
   if (categoriaInput === "--Seleccione--" || orderInput === "--Seleccione--") {
     showErrrorForm("* Todos los campos son obligatorios");
   } else if (cantidadInput < 1) {
     showErrrorForm("* Debe seleccionar un número mayor a 1");
+  } else if (!isLogged) {
+    showErrrorForm("* Debe Iniciar sesión");
   } else {
     filterListQuestion(listWords);
 
     if (orderInput === "aleatorio") {
       randomOrder(listquestion);
+
       filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
-    } else if (orderInput === "menos reproducidas") {
+    } else if (orderInput === "numberReproductions") {
       orderByLeastPlayed(listquestion);
       filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
-    } else if (orderInput === "menos aciertos") {
+    } else if (orderInput === "numberSuccessful") {
       orderByHit(listquestion);
       filteredByNumberOfSelectedQuestions(listquestion, cantidadInput);
     }
@@ -127,6 +146,7 @@ const startActiviy = (e) => {
     sectionListening.classList.remove("ocultar");
 
     initValueParameters(listquestion);
+
     printAudioActive(activeQuestion);
   }
 };
@@ -136,8 +156,8 @@ const startActiviy = (e) => {
  */
 
 const filterListQuestion = (listWords) => {
-  listquestion = listWords.filter(
-    (listWord) => listWord.category == categoriaInput
+  listquestion = listWords.filter((listWord) =>
+    listWord.category.includes(categoriaInput)
   );
 };
 
@@ -148,8 +168,6 @@ Función para devolver el array ordenado de forma aleatoria.*
 const randomOrder = (filterList) => {
   orderedListing = filterList.sort(() => Math.random() - 0.5);
 };
-
-randomOrder(listWords);
 
 /*
  *Función para ordenar el array por las palabras menos escuchadas.
@@ -171,10 +189,10 @@ const orderByLeastPlayed = (filterList) => {
  */
 const orderByHit = (filterList) => {
   orderedListing = filterList.sort((a, b) => {
-    if (a.hit > b.hit) {
+    if (a.numberSuccessful > b.numberSuccessful) {
       return 1;
     }
-    if (a.hit < b.hit) {
+    if (a.numberSuccessful < b.numberSuccessful) {
       return -1;
     }
     return 0;

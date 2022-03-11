@@ -45,7 +45,6 @@ const startLogin = async (e) => {
   };
 
   if (formData.email === "" || formData.password === "") {
-    console.log("* Todos los campos son requqridos");
     showMessage("* Todos los campos son requeridos", "err");
     return;
   }
@@ -124,17 +123,6 @@ const printMenu = () => {
     optionsMenu.lastElementChild.remove();
   }
   optionsMenu.appendChild(menu);
-  console.log("menu");
-};
-
-/* Función para verificar si el usuario esta logueado*/
-const verifyIsLogged = () => {
-  isLogged = localStorage.getItem("isLogged");
-
-  if (!isLogged) {
-    window.open("/english-vocabulary/index.html", "_self");
-    return;
-  }
 };
 
 /* Función para verificar si esxite el token en el localStorage*/
@@ -193,7 +181,6 @@ const startRegister = async (e) => {
   const { email, name, password } = formDataRegister;
 
   if (name === "" || email === "" || password === "") {
-    console.log("* Todos los campos son requqridos");
     showMessage("* Todos los campos son requeridos", "err");
     return;
   }
@@ -211,7 +198,6 @@ const startRegister = async (e) => {
       window.open("/english-vocabulary/index.html", "_self");
     }, 2000);
   } else {
-    console.log("Registro fallido");
     showMessage("Ususario o contraseña incorrecta", "err");
   }
 };
@@ -228,7 +214,6 @@ const getListOfWords = async () => {
 
   localStorage.setItem("listWords", JSON.stringify(listWords));
 };
-console.log(isLogged);
 
 /*
  *Eventos

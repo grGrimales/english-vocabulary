@@ -20,7 +20,7 @@ export const fetchSinToken = (endpoint, data, method = "GET") => {
 /* Función para realizar peticiones https con token*/
 export const fetchConToken = (endpoint, data, method = "GET") => {
   const url = `${baseUrl}/${endpoint}`;
-  // console.log(url);
+
   const token = localStorage.getItem("token") || "";
   if (method === "GET") {
     return fetch(url, {
@@ -40,7 +40,13 @@ export const fetchConToken = (endpoint, data, method = "GET") => {
         body: JSON.stringify(data),
       });
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Ha courrido un error",
+        text: "Vuelva a intentarlo",
+        color: "#1bb1e6",
+        confirmButtonColor: "#f77f00",
+      });
     }
   }
 };
