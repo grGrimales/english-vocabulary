@@ -2,18 +2,18 @@
 
 import { fetchConToken } from "../js/fetch.js";
 
+import { showErrrorFormVocabulary } from "../js/alerts.js";
+
 /*Referencia al Html*/
 const categoria = document.getElementById("categoria");
 const order = document.getElementById("order");
 const btnInicio = document.querySelector("#btnInicio");
-const sectionForm = document.querySelector(".section-form");
+export const sectionForm = document.querySelector(".section-form");
 const sectionActividad = document.querySelector(".section-actividad");
 const contenedorActiveWord = document.querySelector(".contenedor-active-word");
 const contenedorActivity = document.querySelector(".contenedor-actividad");
 const words = document.querySelector("#words");
-const wordEnglishActive = document.querySelector(".word-english");
 const audioHtml = document.getElementById("audio");
-const probar = document.getElementById("probar");
 const categorySelected = document.querySelector("#category-selected");
 const btnReturn = document.querySelector(".btn-return");
 
@@ -193,13 +193,7 @@ const startActivity = (e) => {
     selectOrder === "--Seleccione--" ||
     selectCategoria === "--Seleccione--"
   ) {
-    Swal.fire({
-      icon: "error",
-      title: "Los campos son requeridos",
-      text: "Selecciona ambos valores",
-      color: "#1bb1e6",
-      confirmButtonColor: "#f77f00",
-    });
+    showErrrorFormVocabulary("* Todos los campos son requeridos");
   }
 
   listToShow = [];

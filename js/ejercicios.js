@@ -4,6 +4,7 @@ import {
   initValueParameters,
   activeQuestion,
   printAudioActive,
+  clearLocalStorage,
 } from "../js/listening.js";
 /*
  *Referencias al html
@@ -123,7 +124,13 @@ const startActiviy = (e) => {
   } else if (cantidadInput < 1) {
     showErrrorForm("* Debe seleccionar un número mayor a 1");
   } else if (!isLogged) {
-    showErrrorForm("* Debe Iniciar sesión");
+    Swal.fire({
+      icon: "error",
+      title: "Debe Iniciar sesión",
+      text: "Inicie sesión",
+      color: "#1bb1e6",
+      confirmButtonColor: "#f77f00",
+    });
   } else {
     filterListQuestion(listWords);
 

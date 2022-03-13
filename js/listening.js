@@ -133,7 +133,7 @@ export const initValueParameters = (listquestion) => {
  * Función para  Actualizar en el local storage los valores de palabra activa y el index
  */
 const nextActiveWord = (listWord) => {
-  if (indexActiveQuestion >= listWord.length - 1) {
+  if (indexActiveQuestion >= listWord.length - 1 || indexActiveQuestion == 1) {
     setTimeout(() => {
       openModalListening();
     }, 2000);
@@ -215,7 +215,7 @@ const closeModalListening = () => {
  *Función para borrar el localStorage
  */
 
-const clearLocalStorage = () => {
+export const clearLocalStorage = () => {
   localStorage.removeItem("questionList");
   localStorage.removeItem("indexActiveQuestion");
   localStorage.removeItem("activeQuestion");
