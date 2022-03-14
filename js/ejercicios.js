@@ -96,7 +96,7 @@ const saveFilteredList = (questionList) => {
 };
 
 /*
- *Función para mostra error en el formulario
+ *Función para mostrar error en el formulario
  */
 const showErrrorForm = (error) => {
   const messageError = document.createElement("p");

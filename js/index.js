@@ -2,13 +2,11 @@
 
 import { fetchConToken } from "../js/fetch.js";
 
-import { showErrrorFormVocabulary } from "../js/alerts.js";
-
 /*Referencia al Html*/
 const categoria = document.getElementById("categoria");
 const order = document.getElementById("order");
 const btnInicio = document.querySelector("#btnInicio");
-export const sectionForm = document.querySelector(".section-form");
+const sectionForm = document.querySelector(".section-form");
 const sectionActividad = document.querySelector(".section-actividad");
 const contenedorActiveWord = document.querySelector(".contenedor-active-word");
 const contenedorActivity = document.querySelector(".contenedor-actividad");
@@ -156,15 +154,10 @@ const printListWord = (listWords) => {
 
   const list = listWords.map((listado) => {
     const { id, englishWord } = listado;
-
-    return ` <li id=${id} class="list listar">
-      ${listado.englishWord}
-
-      </li>
-    `;
+    return ` <li id=${id} class="list listar">${englishWord} </li>`;
   });
 
-  words.innerHTML = list;
+  words.innerHTML = list.join(" ");
   contenedorActivity.append(words);
 
   listWords.forEach((element) => {
@@ -174,11 +167,28 @@ const printListWord = (listWords) => {
   });
 };
 
-//Función pra imprimir la categoría seleccionada
-
+/*
+ *Función pra imprimir la categoría seleccionada
+ */
 const printCategory = () => {
   const selectCategoriaStorage = localStorage.getItem("selectCategoria");
   categorySelected.textContent = selectCategoriaStorage?.toUpperCase();
+};
+
+/*
+ *Función para mostra error en el formulario de Vocabulary
+ */
+export const showErrrorFormVocabulary = (error) => {
+  const contenedorErr = document.createElement("div");
+  const messageError = document.createElement("p");
+  messageError.textContent = error;
+  contenedorErr.appendChild(messageError);
+  contenedorErr.classList.add("error", "cont-err");
+  sectionForm.appendChild(contenedorErr);
+
+  setTimeout(() => {
+    contenedorErr.remove();
+  }, 2000);
 };
 
 /*
@@ -194,6 +204,7 @@ const startActivity = (e) => {
     selectCategoria === "--Seleccione--"
   ) {
     showErrrorFormVocabulary("* Todos los campos son requeridos");
+    return;
   }
 
   listToShow = [];
@@ -303,7 +314,7 @@ const playAudio = () => {
   audio.load();
   setTimeout(() => {
     audio.play();
-  }, 500);
+  }, 800);
 };
 
 /* Función para cambiar palabra activa*/

@@ -52,57 +52,54 @@ const evaluateAnswer = (e) => {
     answerInput && answerInput.toLowerCase() === activeQuestion.englishWord;
 
   isCorrect
-    ? isSuccessful("Respuesta Exitosa")
-    : showErrror("Respuesta correcta:");
+    ? showMessage("Respuesta Exitosa", "success")
+    : showMessage(`Respuesta correcta: ${activeQuestion.englishWord}`, "err");
 };
 
 /*
- * Función que se ejecuta cuando el usuario acierta la palabra
+ * Función que muestra mensaje de error si es la palabra errada o de exito si es la acertada
  */
-const isSuccessful = (messagge) => {
+const showMessage = (messagge, tipo) => {
   const activeQuestionStorage = JSON.parse(
     localStorage.getItem("activeQuestion")
   );
   const { id } = activeQuestionStorage;
 
-  increaseNumberSuccessful(id, true);
-  const messagesuccess = document.createElement("p");
-  messagesuccess.innerHTML = ` <i class="fa-solid fa-check"></i> ${messagge}  `;
-  contenedorMessage.classList.add("success");
-  contenedorMessage.appendChild(messagesuccess);
-  questionList = JSON.parse(localStorage.getItem("questionList"));
-  nextActiveWord(questionList);
-  answer.value = "";
+  switch (tipo) {
+    case "success":
+      increaseNumberSuccessful(id, true);
+      const messagesuccess = document.createElement("p");
+      messagesuccess.innerHTML = ` <i class="fa-solid fa-check"></i> ${messagge}  `;
+      contenedorMessage.classList.add("success");
+      contenedorMessage.appendChild(messagesuccess);
+      questionList = JSON.parse(localStorage.getItem("questionList"));
 
-  setTimeout(() => {
-    messagesuccess.remove();
-    contenedorMessage.classList.remove("success");
-  }, 2000);
-};
+      answer.value = "";
 
-/**
- * Función para mostrar mensaje de error cuando la respuesta es incorrecta
- */
-const showErrror = (error) => {
-  const activeQuestionStorage = JSON.parse(
-    localStorage.getItem("activeQuestion")
-  );
-  const { id } = activeQuestionStorage;
+      setTimeout(() => {
+        messagesuccess.remove();
+        contenedorMessage.classList.remove("success");
+      }, 2000);
+      nextActiveWord(questionList);
+      break;
 
-  increaseNumberSuccessful(id, false);
+    case "err":
+      increaseNumberSuccessful(id, false);
+      const messageError = document.createElement("p");
+      messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${messagge}`;
+      contenedorMessage.classList.add("error");
+      contenedorMessage.appendChild(messageError);
+      questionList = JSON.parse(localStorage.getItem("questionList"));
+      answer.value = "";
+      setTimeout(() => {
+        messageError.remove();
+        contenedorMessage.classList.remove("error");
+      }, 2000);
+      nextActiveWord(questionList);
 
-  const messageError = document.createElement("p");
-  messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${error} ${activeQuestionStorage.englishWord}`;
-  contenedorMessage.classList.add("error");
-  contenedorMessage.appendChild(messageError);
-  questionList = JSON.parse(localStorage.getItem("questionList"));
-  nextActiveWord(questionList);
-  answer.value = "";
-
-  setTimeout(() => {
-    messageError.remove();
-    contenedorMessage.classList.remove("error");
-  }, 2000);
+    default:
+      break;
+  }
 };
 
 /**
@@ -120,7 +117,7 @@ const showErrrorInput = (error) => {
   }, 1000);
 };
 
-/**
+/*
  * Función para iniciar los valores de palabra activa y el index
  */
 export const initValueParameters = (listquestion) => {
@@ -129,19 +126,21 @@ export const initValueParameters = (listquestion) => {
   saveValueParameters(indexActiveQuestion, activeQuestion);
 };
 
-/**
+/*
  * Función para  Actualizar en el local storage los valores de palabra activa y el index
  */
 const nextActiveWord = (listWord) => {
-  if (indexActiveQuestion >= listWord.length - 1 || indexActiveQuestion == 1) {
+  indexActiveQuestion = parseInt(localStorage.getItem("indexActiveQuestion"));
+
+  if (indexActiveQuestion >= listWord.length - 1) {
     setTimeout(() => {
       openModalListening();
     }, 2000);
-
     return;
   }
   if (indexActiveQuestion < listWord.length) {
     indexActiveQuestion += 1;
+
     activeQuestion = listWord[indexActiveQuestion];
     saveValueParameters(indexActiveQuestion, activeQuestion);
     printAudioActive(activeQuestion);
