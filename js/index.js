@@ -59,7 +59,11 @@ printSelect();
  */
 const randomOrder = (inputArray) => {
   const ramdonList = inputArray.sort(() => Math.random() - 0.5);
-  localStorage.setItem("filteredWordList", JSON.stringify(ramdonList));
+
+  localStorage.setItem(
+    "filteredWordList",
+    JSON.stringify(ramdonList.slice(0, 7))
+  );
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
@@ -76,7 +80,10 @@ const orderByLeastPlayed = (inputArray) => {
     }
     return 0;
   });
-  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
+  localStorage.setItem(
+    "filteredWordList",
+    JSON.stringify(filteredWordList.slice(0, 7))
+  );
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
@@ -93,7 +100,10 @@ const orderByHit = (inputArray) => {
     }
     return 0;
   });
-  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
+  localStorage.setItem(
+    "filteredWordList",
+    JSON.stringify(filteredWordList.slice(0, 7))
+  );
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
@@ -131,15 +141,6 @@ const printActiveWord = (listWords) => {
 
     contenedorActiveWord.append(activeWord);
   }
-  // } else {
-  //   Swal.fire({
-  //     icon: "error",
-  //     title: "Debe Iniciar sesión",
-  //     text: "Inicie sesión",
-  //     color: "#1bb1e6",
-  //     confirmButtonColor: "#f77f00",
-  //   });
-  // }
 };
 
 /*
