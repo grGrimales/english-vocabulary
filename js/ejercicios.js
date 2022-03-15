@@ -10,6 +10,7 @@ import {
 import {
   showErrrorFormRemember,
   printActiveWordRemember,
+  modalRememberFinalized,
 } from "../js/remember.js";
 /*
  *Referencias al html
@@ -107,6 +108,13 @@ window.onclick = function (e) {
 
   if (e.target == modalRemember) {
     modalRemember.style.display = "none";
+    clearLocalStorage();
+    sectionRememberWords.classList.add("ocultar");
+    sectionEjercicios.classList.remove("ocultar");
+  }
+
+  if (e.target == modalRememberFinalized) {
+    modalRememberFinalized.style.display = "none";
     clearLocalStorage();
     sectionRememberWords.classList.add("ocultar");
     sectionEjercicios.classList.remove("ocultar");
@@ -345,20 +353,6 @@ const filteredByNumberOfSelectedQuestionsRemember = (
   saveFilteredListRemember(filteredQuestionList);
 };
 
-/*
- *Función para verificar si ya existe el listado preguntas de remember words
- */
-const checkquestionListLocalStorageRemember = () => {
-  filteredQuestionList = JSON.parse(
-    localStorage.getItem("filteredQuestionList")
-  );
-  if (filteredQuestionList !== null) {
-    sectionEjercicios.classList.add("ocultar");
-    sectionRememberWords.classList.remove("ocultar");
-  }
-};
-
-checkquestionListLocalStorageRemember();
 /*
  *Eventos
  */

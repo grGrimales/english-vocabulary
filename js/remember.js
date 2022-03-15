@@ -8,10 +8,17 @@ const btnRemember = document.querySelector(".btn-remember");
 
 const activeWordRemember = document.querySelector(".active-word-remember");
 const rememberInput = document.querySelector("#rememberInput");
-const formQuestionRemember = document.querySelector("#formQuestionRemember");
+const contenedorRememberWords = document.querySelector(
+  ".contenedor-remember-words"
+);
+
+export const modalRememberFinalized = document.getElementById(
+  "modalRememberFinalized"
+);
+const rememberFinalized = document.getElementsByClassName("finalized")[0];
 
 /* Declaración variables */
-let activeQuestionRemember = JSON.parse(localStorage.getItem("activeQuestion"));
+
 let indexActiveQuestion;
 
 let answerInputRemember = "";
@@ -34,8 +41,6 @@ export const printActiveWordRemember = (activeQuestionRemember) => {
   activeWord.textContent = englishWord;
   activeWord.classList.add("active");
 
-  console.log(activeWord);
-
   activeWordRemember.appendChild(activeWord);
 };
 
@@ -43,6 +48,9 @@ export const printActiveWordRemember = (activeQuestionRemember) => {
  * Función para comprobar respuesta
  */
 const evaluateAnswerRemember = (e) => {
+  let activeQuestionRemember = JSON.parse(
+    localStorage.getItem("activeQuestion")
+  );
   let filteredQuestionList = JSON.parse(
     localStorage.getItem("filteredQuestionList")
   );
@@ -54,12 +62,7 @@ const evaluateAnswerRemember = (e) => {
     console.log("Debes ingresar un valor");
 
     return;
-  } else {
-    console.log("pasa a la siguiente");
-    nextActiveWordRemember(filteredQuestionList);
-    formQuestionRemember.reset();
   }
-
   const isCorrect =
     answerInputRemember &&
     answerInputRemember.toLowerCase() === activeQuestionRemember.spanishWord;
@@ -76,6 +79,9 @@ const evaluateAnswerRemember = (e) => {
  * Función que muestra mensaje de error si es la palabra errada o de exito si es la acertada
  */
 const showMessageRemember = (messagge, tipo) => {
+  let activeQuestionRemember = JSON.parse(
+    localStorage.getItem("activeQuestion")
+  );
   const { id } = activeQuestionRemember;
   let filteredQuestionList = JSON.parse(
     localStorage.getItem("filteredQuestionList")
@@ -86,15 +92,14 @@ const showMessageRemember = (messagge, tipo) => {
       const contenedorMessage = document.createElement("div");
       const messagesuccess = document.createElement("p");
       messagesuccess.innerHTML = ` <i class="fa-solid fa-check"></i> ${messagge}  `;
-      contenedorMessage.classList.add("success");
+      contenedorMessage.classList.add("success", "contenedor-msj");
       contenedorMessage.appendChild(messagesuccess);
-      sectionRememberWords.appendChild(contenedorMessage);
+      contenedorRememberWords.appendChild(contenedorMessage);
 
-      answerInputRemember.value = "";
+      rememberInput.value = "";
 
       setTimeout(() => {
-        messagesuccess.remove();
-        contenedorMessage.classList.remove("success");
+        contenedorMessage.remove();
       }, 2000);
       nextActiveWordRemember(filteredQuestionList);
       break;
@@ -104,16 +109,16 @@ const showMessageRemember = (messagge, tipo) => {
       const contenedorMessageErr = document.createElement("div");
       const messageError = document.createElement("p");
       messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${messagge}`;
-      contenedorMessageErr.classList.add("error");
+      contenedorMessageErr.classList.add("error", "contenedor-msj");
       contenedorMessageErr.appendChild(messageError);
-      sectionRememberWords.appendChild(contenedorMessageErr);
+      contenedorRememberWords.appendChild(contenedorMessageErr);
 
-      answerInputRemember.value = "";
+      rememberInput.value = "";
       setTimeout(() => {
-        messageError.remove();
-        contenedorMessage.classList.remove("error");
+        contenedorMessageErr.remove();
       }, 2000);
       nextActiveWordRemember(filteredQuestionList);
+      break;
 
     default:
       break;
@@ -128,15 +133,17 @@ const nextActiveWordRemember = (listWord) => {
   indexActiveQuestion = parseInt(localStorage.getItem("indexActiveQuestion"));
 
   if (indexActiveQuestion >= listWord.length - 1) {
-    console.log("llego al final del listado");
+    setTimeout(() => {
+      openModalRememberFinalized();
+    }, 2000);
     return;
   }
   if (indexActiveQuestion < listWord.length) {
     indexActiveQuestion += 1;
 
-    activeQuestionRemember = listWord[indexActiveQuestion];
-    saveValueParameters(indexActiveQuestion, activeQuestionRemember);
-    printActiveWordRemember(activeQuestionRemember);
+    const activeQuestion = listWord[indexActiveQuestion];
+    saveValueParameters(indexActiveQuestion, activeQuestion);
+    printActiveWordRemember(activeQuestion);
   }
 };
 
@@ -155,6 +162,27 @@ export const showErrrorFormRemember = (error) => {
 };
 
 /*
+ *Función para verificar si ya existe el listado preguntas de remember words
+ */
+const checkquestionListLocalStorageRemember = () => {
+  let filteredQuestionList = JSON.parse(
+    localStorage.getItem("filteredQuestionList")
+  );
+  let activeQuestionRemember = JSON.parse(
+    localStorage.getItem("activeQuestion")
+  );
+  if (filteredQuestionList !== null) {
+    sectionEjercicios.classList.add("ocultar");
+    printActiveWordRemember(activeQuestionRemember);
+    sectionRememberWords.classList.remove("ocultar");
+  } else {
+    return;
+  }
+};
+
+checkquestionListLocalStorageRemember();
+
+/*
  *Función para cerrar la actividad
  */
 const closeRemember = (e) => {
@@ -165,10 +193,29 @@ const closeRemember = (e) => {
 };
 
 /*
+ *Función para abrir la ventana modal una vez que finaliza el listado de preguntas
+ */
+const openModalRememberFinalized = () => {
+  modalRememberFinalized.style.display = "block";
+};
+
+/*
+ *Función para cerrar la ventana modal de listening
+ */
+const closeModalRememberFinalized = () => {
+  modalRememberFinalized.style.display = "none";
+  clearLocalStorageRemember();
+  sectionEjercicios.classList.remove("ocultar");
+  sectionRememberWords.classList.add("ocultar");
+};
+
+/*
  *Función para borrar el local storage
  */
 const clearLocalStorageRemember = () => {
   localStorage.removeItem("filteredQuestionList");
+  localStorage.removeItem("activeQuestion");
+  localStorage.removeItem("indexActiveQuestion");
 };
 
 /*
@@ -177,3 +224,4 @@ const clearLocalStorageRemember = () => {
 
 btnReturnRemember?.addEventListener("click", closeRemember);
 btnRemember.addEventListener("click", evaluateAnswerRemember);
+rememberFinalized.addEventListener("click", closeModalRememberFinalized);

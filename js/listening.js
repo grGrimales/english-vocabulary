@@ -9,7 +9,6 @@ const audioListening = document.querySelector("#audio-listening");
 const answer = document.querySelector("#answer");
 export const sectionListening = document.querySelector(".section-listening");
 const contenedorMessage = document.querySelector(".contenedor-msj");
-const error = document.querySelector("#error");
 const btnReturn = document.querySelector(".btn-return");
 const modalListening = document.getElementById("modalListening");
 const spanListening = document.getElementsByClassName("listening")[0];
@@ -173,6 +172,7 @@ const checkquestionListLocalStorage = () => {
   const activeQuestionStorage = JSON.parse(
     localStorage.getItem("activeQuestion")
   );
+  const sectionEjercicios = document.querySelector(".section-ejercicios");
 
   if (questionListStorage !== null) {
     sectionEjercicios.classList.add("ocultar");

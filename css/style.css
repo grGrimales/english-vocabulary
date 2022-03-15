@@ -453,7 +453,8 @@ iframe {
 .close,
 .listening,
 .remember,
-.login {
+.login,
+.finalized {
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -466,6 +467,8 @@ iframe {
 .listening:focus,
 .remember:hover,
 .remember:focus,
+.finalized:hover,
+.finalized:focus,
 .login:hover,
 .login:focus {
   color: black;
@@ -522,6 +525,7 @@ input:focus {
   font-weight: bold;
   border: 2px solid #f77f00;
 }
+
 .contenedor-msj {
   display: flex;
   align-items: center;
