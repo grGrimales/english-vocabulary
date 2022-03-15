@@ -150,7 +150,7 @@ const nextActiveWord = (listWord) => {
 /**
  * Función para  Actualizar en el local storage los valores de palabra activa y el index
  */
-const saveValueParameters = (indexToUpdate, wordsToUpdate) => {
+export const saveValueParameters = (indexToUpdate, wordsToUpdate) => {
   localStorage.setItem("indexActiveQuestion", indexToUpdate);
   localStorage.setItem("activeQuestion", JSON.stringify(wordsToUpdate));
 };
@@ -184,6 +184,7 @@ const checkquestionListLocalStorage = () => {
 };
 
 checkquestionListLocalStorage();
+
 /**
  * Función para cerrar la actividad
  */

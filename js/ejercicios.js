@@ -6,6 +6,11 @@ import {
   printAudioActive,
   clearLocalStorage,
 } from "../js/listening.js";
+
+import {
+  showErrrorFormRemember,
+  printActiveWordRemember,
+} from "../js/remember.js";
 /*
  *Referencias al html
  */
@@ -15,10 +20,19 @@ const span = document.getElementsByClassName("close")[0];
 export const sectionEjercicios = document.querySelector(".section-ejercicios");
 const btnForm = document.querySelector("#btnForm");
 const categoria = document.querySelector("#categoria");
+const categoriaRemember = document.querySelector("#categoriaRemember");
 const order = document.querySelector("#order");
 const cantidad = document.querySelector("#cantidad");
 const contError = document.querySelector(".cont-err");
 const formEjercicios = document.querySelector("#formEjercicios");
+const modalRemember = document.getElementById("modalRemember");
+const spanRemember = document.getElementsByClassName("remember")[0];
+const actividadDos = document.querySelector("#actividad-dos");
+const btnFormRemember = document.querySelector("#btnFormRemember");
+
+export const sectionRememberWords = document.querySelector(
+  ".section-remember-words"
+);
 
 /*
  *Declaración de variables
@@ -31,9 +45,14 @@ let categoriaInput = "";
 let orderInput = "";
 let cantidadInput;
 
-/* Función para crear select*/
+let filteredQuestionList = [];
 
-const printSelectActivity = async () => {
+let categoriaInputRemember = "";
+let cantidadInputRemember = "";
+
+/* Función para crear select en la actividad de listening*/
+
+const printSelectActivityListening = async () => {
   const resp = await fetchConToken("category", {});
 
   const body = await resp.json();
@@ -48,7 +67,27 @@ const printSelectActivity = async () => {
     categoria.appendChild(option);
   }
 };
-printSelectActivity();
+printSelectActivityListening();
+
+/* Función para crear select en la actividad de writting*/
+
+const printSelectActivityWritting = async () => {
+  const resp = await fetchConToken("category", {});
+
+  const body = await resp.json();
+
+  const categorys = body.categorys;
+
+  for (let i = 0; i < categorys.length; i++) {
+    let option = document.createElement("option");
+
+    option.value = categorys[i].toLowerCase();
+    option.text = categorys[i];
+    categoriaRemember.appendChild(option);
+  }
+};
+
+printSelectActivityWritting();
 
 /*
  *Función para cerrar la ventana modal cuando hace click fuera del modal
@@ -75,20 +114,71 @@ window.onclick = function (e) {
 };
 
 /*
- *Función para abrir la ventana modal
+ *Función para abrir la ventana modal de listening
  */
 const openModal = () => {
   modal.style.display = "block";
 };
 
 /*
- *Función para cerrar la ventana modal
+ *Función para cerrar la ventana modal de listening
  */
 const closeModal = () => {
   modal.style.display = "none";
 };
 
-/**
+/*
+ *Función para abrir la ventana modal de writting
+ */
+const openModalRemember = () => {
+  modalRemember.style.display = "block";
+};
+
+/*
+ *Función para cerrar la ventana modal de remember words
+ */
+const closeModalRemember = () => {
+  modalRemember.style.display = "none";
+};
+
+/*
+ *Función para iniciar la actividad de writting
+ */
+const startActivityDos = (e) => {
+  e.preventDefault();
+  categoriaInputRemember = categoriaRemember.value;
+  cantidadInputRemember = cantidadRemember.value;
+
+  const isLogged = localStorage.getItem("isLogged");
+  if (categoriaInputRemember === "--Seleccione--") {
+    showErrrorFormRemember("* Todos los campos son obligatorios");
+  } else if (cantidadInputRemember < 1) {
+    showErrrorFormRemember("* Debe seleccionar un número mayor a 1");
+  } else if (!isLogged) {
+    Swal.fire({
+      icon: "error",
+      title: "Debe Iniciar sesión",
+      text: "Inicie sesión",
+      color: "#1bb1e6",
+      confirmButtonColor: "#f77f00",
+    });
+  } else {
+    filterListQuestionRemember(listWords);
+    filteredByNumberOfSelectedQuestionsRemember(
+      filteredQuestionList,
+      cantidadInputRemember
+    );
+    initValueParameters(filteredQuestionList);
+    const activeQuestion = JSON.parse(localStorage.getItem("activeQuestion"));
+    printActiveWordRemember(activeQuestion);
+    sectionEjercicios.classList.add("ocultar");
+    sectionRememberWords.classList.remove("ocultar");
+    formRemember.reset();
+    closeModalRemember();
+  }
+};
+
+/*
  * Función para  guardar el listado de pregunta de acuerdo a lo seleccionado en el formulario
  */
 const saveFilteredList = (questionList) => {
@@ -207,12 +297,52 @@ const orderByHit = (filterList) => {
 };
 
 /**
- * Función para crear array con la cantidad de palabras seleccionada por el usuario
+ * Función para crear array con la cantidad de palabras seleccionada por el usuario en  listening
  */
 
 const filteredByNumberOfSelectedQuestions = (filterList, cantidadInput) => {
   orderedListing = filterList.slice(0, cantidadInput);
   saveFilteredList(orderedListing);
+};
+
+/*Función para filtrar la lista de preguntas por categoria
+ */
+
+const filterListQuestionRemember = (listWords) => {
+  filteredQuestionList = listWords.filter(
+    (listWord) => listWord.category == categoriaInputRemember
+  );
+  randomOrderRemember(filteredQuestionList);
+};
+
+/*
+Función para devolver el array ordenado de forma aleatoria.*
+*/
+
+const randomOrderRemember = (filterList) => {
+  filteredQuestionList = filterList.sort(() => Math.random() - 0.5);
+};
+
+/**
+ * Función para  guardar el listado de pregunta de acuerdo a lo seleccionado en el formulario
+ */
+const saveFilteredListRemember = (filteredQuestionList) => {
+  localStorage.setItem(
+    "filteredQuestionList",
+    JSON.stringify(filteredQuestionList)
+  );
+};
+
+/**
+ * Función para crear array con la cantidad de palabras seleccionada por el usuario
+ */
+
+const filteredByNumberOfSelectedQuestionsRemember = (
+  filteredQuestionList,
+  cantidadInputRemember
+) => {
+  filteredQuestionList = filteredQuestionList.slice(0, cantidadInputRemember);
+  saveFilteredListRemember(filteredQuestionList);
 };
 
 /*
@@ -235,3 +365,6 @@ checkquestionListLocalStorageRemember();
 actividadUno.addEventListener("click", openModal);
 span.addEventListener("click", closeModal);
 btnForm.addEventListener("click", startActiviy);
+spanRemember.addEventListener("click", closeModalRemember);
+actividadDos.addEventListener("click", openModalRemember);
+btnFormRemember.addEventListener("click", startActivityDos);

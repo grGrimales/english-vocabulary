@@ -168,21 +168,25 @@
           </button>
         </div>
         <div class="contenedor-remember-words">
-          <progress value="70" max="100">70 %</progress>
           <p>Traduce la siguiente palabra y escribela en el recuadro:</p>
 
-          <ul class="listado-words">
-            <li class="active">Summer</li>
-          </ul>
+          <ul class="listado-words active-word-remember"></ul>
 
-          <form action="">
-            <input type="text" name="" autofocus />
-            <button class="btn-listening btn-regular" type="submit">
+          <form action="" id="formQuestionRemember">
+            <input
+              type="text"
+              name=""
+              autofocus
+              id="rememberInput"
+              autocomplete="off"
+            />
+            <button class="btn-remember btn-regular" type="submit">
               Comprobar respuesta
             </button>
             <div class="cotenedor-form"></div>
           </form>
         </div>
+        <div class="contenedor-msj"></div>
       </section>
     </main>
 
@@ -208,10 +212,10 @@
               <select name="categoriaRemember" id="categoriaRemember">
                 <option disabled selected>--Seleccione--</option>
 
-                <option value="clima">Clima</option>
+                <!-- <option value="clima">Clima</option>
                 <option value="oficina">Oficina</option>
                 <option value="saludo">Saludo</option>
-                <option value="familia">Familia</option>
+                <option value="familia">Familia</option> -->
               </select>
             </div>
 
@@ -284,7 +288,7 @@
       crossorigin="anonymous"
     ></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../js/remember.js"></script>
+    <script type="module" src="../js/remember.js"></script>
     <script type="module" src="../js/listening.js"></script>
     <script type="module" src="../js/ejercicios.js"></script>
     <script src="../js/menu.js"></script>

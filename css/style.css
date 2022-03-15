@@ -464,6 +464,8 @@ iframe {
 .close:focus,
 .listening:hover,
 .listening:focus,
+.remember:hover,
+.remember:focus,
 .login:hover,
 .login:focus {
   color: black;
@@ -708,7 +710,8 @@ input:focus {
     justify-content: space-around;
   }
 
-  .btn-listening {
+  .btn-listening,
+  .btn-remember {
     width: 100%;
   }
 
