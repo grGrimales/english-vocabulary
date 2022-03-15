@@ -59,10 +59,10 @@ const evaluateAnswerRemember = (e) => {
   answerInputRemember = rememberInput.value;
 
   if (answerInputRemember === "") {
-    console.log("Debes ingresar un valor");
-
+    showMessageRemember("Debes ingresar un valor", "required");
     return;
   }
+
   const isCorrect =
     answerInputRemember &&
     answerInputRemember.toLowerCase() === activeQuestionRemember.spanishWord;
@@ -79,6 +79,7 @@ const evaluateAnswerRemember = (e) => {
  * Función que muestra mensaje de error si es la palabra errada o de exito si es la acertada
  */
 const showMessageRemember = (messagge, tipo) => {
+  const contenedorMsj = document.querySelector(".contenedor-alert");
   let activeQuestionRemember = JSON.parse(
     localStorage.getItem("activeQuestion")
   );
@@ -89,37 +90,45 @@ const showMessageRemember = (messagge, tipo) => {
   switch (tipo) {
     case "success":
       // increaseNumberSuccessful(id, true);
-      const contenedorMessage = document.createElement("div");
       const messagesuccess = document.createElement("p");
       messagesuccess.innerHTML = ` <i class="fa-solid fa-check"></i> ${messagge}  `;
-      contenedorMessage.classList.add("success", "contenedor-msj");
-      contenedorMessage.appendChild(messagesuccess);
-      contenedorRememberWords.appendChild(contenedorMessage);
-
+      contenedorMsj.classList.add("success");
+      contenedorMsj.appendChild(messagesuccess);
       rememberInput.value = "";
 
       setTimeout(() => {
-        contenedorMessage.remove();
+        messagesuccess.remove();
+        contenedorMsj.classList.remove("success");
       }, 2000);
       nextActiveWordRemember(filteredQuestionList);
       break;
 
     case "err":
       //increaseNumberSuccessful(id, false);
-      const contenedorMessageErr = document.createElement("div");
+
       const messageError = document.createElement("p");
       messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${messagge}`;
-      contenedorMessageErr.classList.add("error", "contenedor-msj");
-      contenedorMessageErr.appendChild(messageError);
-      contenedorRememberWords.appendChild(contenedorMessageErr);
-
+      contenedorMsj.classList.add("error");
+      contenedorMsj.appendChild(messageError);
       rememberInput.value = "";
       setTimeout(() => {
-        contenedorMessageErr.remove();
+        messageError.remove();
+        contenedorMsj.classList.remove("error");
       }, 2000);
       nextActiveWordRemember(filteredQuestionList);
       break;
 
+    case "required":
+      const messagerequired = document.createElement("p");
+      messagerequired.innerHTML = `* ${messagge}`;
+      contenedorMsj.classList.add("error");
+      contenedorMsj.appendChild(messagerequired);
+      rememberInput.value = "";
+      setTimeout(() => {
+        messagerequired.remove();
+        contenedorMsj.classList.remove("error");
+      }, 2000);
+      break;
     default:
       break;
   }

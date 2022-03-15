@@ -526,7 +526,8 @@ input:focus {
   border: 2px solid #f77f00;
 }
 
-.contenedor-msj {
+.contenedor-msj,
+.contenedor-alert {
   display: flex;
   align-items: center;
   justify-content: center;
