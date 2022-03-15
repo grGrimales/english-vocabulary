@@ -1,26 +1,28 @@
 //Inicia funcionalidad del menú
-//Ejecutar función en el evento click
+/**
+ * Ejecutar función en el evento click
+ */
 document.getElementById("btn_open").addEventListener("click", open_close_menu);
 
-//Declaramos variables
+/**Declaramos variables*/
 const side_menu = document.getElementById("menu_side");
 const btn_open = document.getElementById("btn_open");
 const body = document.getElementById("body");
 
-//Evento para mostrar y ocultar menú
+/**Evento para mostrar y ocultar menú*/
 function open_close_menu() {
   body.classList.toggle("body_move");
   side_menu.classList.toggle("menu__side_move");
 }
 
-//Si el ancho de la página es menor a 760px, ocultará el menú al recargar la página
+/**Si el ancho de la página es menor a 760px, ocultará el menú al recargar la página*/
 
 if (window.innerWidth < 760) {
   body.classList.add("body_move");
   side_menu.classList.add("menu__side_move");
 }
 
-//Haciendo el menú responsive(adaptable)
+/**Haciendo el menú responsive(adaptable)*/
 
 window.addEventListener("resize", function () {
   if (window.innerWidth > 760) {
@@ -34,4 +36,13 @@ window.addEventListener("resize", function () {
   }
 });
 
-//Finaliza funcionalidad del menú
+/*Inicia el Logout */
+
+const btnLogout = document.querySelector("#logout");
+
+const logout = () => {
+  localStorage.clear();
+  window.open("../index.html", "_self");
+};
+
+btnLogout?.addEventListener("click", logout);

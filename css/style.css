@@ -47,6 +47,10 @@ li {
 .mt-3 {
   margin-top: 3rem;
 }
+
+.mb-2 {
+  margin-bottom: 2rem;
+}
 /*Menu lateral*/
 
 header {
@@ -169,6 +173,10 @@ a.selected {
   position: absolute;
   top: 10%;
   left: -30px;
+}
+
+#logout {
+  color: red;
 }
 
 /*Clases para usar en JavaScript*/

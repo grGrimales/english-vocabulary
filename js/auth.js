@@ -15,10 +15,6 @@ const modalLogin = document.getElementById("modalLogin");
 const spanLogin = document.getElementsByClassName("login")[0];
 const optionsMenu = document.querySelector(".options__menu");
 
-/* Declaración de variables*/
-const emailInput = "";
-const passwordInput = "";
-
 let token = "";
 export let isLogged = false;
 
@@ -91,7 +87,7 @@ const printMenu = () => {
   let menu = document.createElement("div");
 
   menu.innerHTML = `
-  <a href="" >
+  <a href="" class="selected">
   <div class="option">
     <i class="fas fa-home" title="Inicio"></i>
     <h4>Inicio</h4>
@@ -117,6 +113,8 @@ const printMenu = () => {
     <h4>Vídeos</h4>
   </div>
 </a> 
+
+
   `;
 
   if (optionsMenu.lastElementChild) {
