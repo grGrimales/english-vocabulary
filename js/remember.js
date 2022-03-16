@@ -77,7 +77,6 @@ const showMessageRemember = (messagge, tipo) => {
   );
   switch (tipo) {
     case "success":
-      // increaseNumberSuccessful(id, true);
       const messagesuccess = document.createElement("p");
       messagesuccess.innerHTML = ` <i class="fa-solid fa-check"></i> ${messagge}  `;
       contenedorMsj.classList.add("success");
@@ -92,8 +91,6 @@ const showMessageRemember = (messagge, tipo) => {
       break;
 
     case "err":
-      //increaseNumberSuccessful(id, false);
-
       const messageError = document.createElement("p");
       messageError.innerHTML = ` <i id="error" class="fa-solid fa-xmark"></i> ${messagge}`;
       contenedorMsj.classList.add("error");
