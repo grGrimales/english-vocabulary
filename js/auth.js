@@ -36,24 +36,32 @@ const startLogin = async (e) => {
     email: email.value,
     password: password.value,
   };
-
+  const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  // if (formData.email === "" || formData.password === "") {
+  //   showMessage("* Todos los campos son requeridos", "err");
+  //   return;
+  // }
   if (formData.email === "" || formData.password === "") {
     showMessage("* Todos los campos son requeridos", "err");
     return;
-  }
-  const resp = await fetchSinToken("auth/login", formData, "POST");
-  const body = await resp.json();
-  if (body.ok) {
-    localStorage.setItem("token", body.user.token);
-    showMessage("Inicio de sesión exitoso", "success");
-    isLogged = true;
-    localStorage.setItem("isLogged", isLogged);
-    printMenu();
-    getListOfWords();
-    sectionHome.classList.remove("ocultar");
-    contenedorLogin.classList.add("ocultar");
+  } else if (!er.test(formData.email)) {
+    showMessage("* Email no válido", "err");
+    return;
   } else {
-    showMessage("Ususario o contraseña incorrecta", "err");
+    const resp = await fetchSinToken("auth/login", formData, "POST");
+    const body = await resp.json();
+    if (body.ok) {
+      localStorage.setItem("token", body.user.token);
+      showMessage("Inicio de sesión exitoso", "success");
+      isLogged = true;
+      localStorage.setItem("isLogged", isLogged);
+      printMenu();
+      getListOfWords();
+      sectionHome.classList.remove("ocultar");
+      contenedorLogin.classList.add("ocultar");
+    } else {
+      showMessage("Ususario o contraseña incorrecta", "err");
+    }
   }
 };
 
