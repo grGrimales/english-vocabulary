@@ -213,6 +213,7 @@ export const clearLocalStorage = () => {
   localStorage.removeItem("questionList");
   localStorage.removeItem("indexActiveQuestion");
   localStorage.removeItem("activeQuestion");
+  localStorage.removeItem("filteredQuestionList");
 };
 
 /*
