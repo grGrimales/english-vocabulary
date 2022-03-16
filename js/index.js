@@ -340,8 +340,8 @@ const returnForm = (e) => {
   localStorage.removeItem("listToShow");
   localStorage.removeItem("filteredWordList");
   localStorage.removeItem("selectCategoria");
+
   resetValores();
-  contenedorActiveWord.children[1].remove();
   sectionActividad.classList.add("ocultar");
   sectionForm.classList.remove("ocultar");
 };

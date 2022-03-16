@@ -582,6 +582,11 @@ input:focus {
   justify-content: center;
 }
 
+.form-login p {
+  font-size: 1rem;
+  color: #aaa;
+}
+
 .form-login a {
   color: #008fce;
   margin-top: 1rem;

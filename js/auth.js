@@ -175,6 +175,7 @@ const startRegister = async (e) => {
 
   const resp = await fetchSinToken("auth/register", formDataRegister, "POST");
   const body = await resp.json();
+
   if (body.ok) {
     showMessage("Registro exitoso", "success");
     localStorage.setItem("token", body.user.token);
@@ -187,7 +188,11 @@ const startRegister = async (e) => {
       window.open("/english-vocabulary/index.html", "_self");
     }, 2000);
   } else {
-    showMessage("Ususario o contraseña incorrecta", "err");
+    if (body.errors.length === 2) {
+      showMessage(`${body.errors[0].msg} y ${body.errors[1].msg}`, "err");
+    } else {
+      showMessage(`${body.errors[0].msg}`, "err");
+    }
   }
 };
 
