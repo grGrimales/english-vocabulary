@@ -30,7 +30,6 @@ const modalRemember = document.getElementById("modalRemember");
 const spanRemember = document.getElementsByClassName("remember")[0];
 const actividadDos = document.querySelector("#actividad-dos");
 const btnFormRemember = document.querySelector("#btnFormRemember");
-
 export const sectionRememberWords = document.querySelector(
   ".section-remember-words"
 );
@@ -41,23 +40,17 @@ export const sectionRememberWords = document.querySelector(
 let listWords = JSON.parse(localStorage.getItem("listWords"));
 let listquestion = [];
 let orderedListing = [];
-
 let categoriaInput = "";
 let orderInput = "";
 let cantidadInput;
-
 let filteredQuestionList = [];
-
 let categoriaInputRemember = "";
 let cantidadInputRemember = "";
 
 /* Función para crear select en la actividad de listening*/
-
 const printSelectActivityListening = async () => {
   const resp = await fetchConToken("category", {});
-
   const body = await resp.json();
-
   const categorys = body.categorys;
 
   for (let i = 0; i < categorys.length; i++) {
@@ -71,12 +64,9 @@ const printSelectActivityListening = async () => {
 printSelectActivityListening();
 
 /* Función para crear select en la actividad de writting*/
-
 const printSelectActivityWritting = async () => {
   const resp = await fetchConToken("category", {});
-
   const body = await resp.json();
-
   const categorys = body.categorys;
 
   for (let i = 0; i < categorys.length; i++) {
@@ -93,27 +83,20 @@ printSelectActivityWritting();
 /*
  *Función para cerrar la ventana modal cuando hace click fuera del modal
  */
-
 window.onclick = function (e) {
   if (e.target == modal) {
     modal.style.display = "none";
-  }
-
-  if (e.target == modalListening) {
+  } else if (e.target == modalListening) {
     modalListening.style.display = "none";
     clearLocalStorage();
     sectionListening.classList.add("ocultar");
     sectionEjercicios.classList.remove("ocultar");
-  }
-
-  if (e.target == modalRemember) {
+  } else if (e.target == modalRemember) {
     modalRemember.style.display = "none";
     clearLocalStorage();
     sectionRememberWords.classList.add("ocultar");
     sectionEjercicios.classList.remove("ocultar");
-  }
-
-  if (e.target == modalRememberFinalized) {
+  } else if (e.target == modalRememberFinalized) {
     modalRememberFinalized.style.display = "none";
     clearLocalStorage();
     sectionRememberWords.classList.add("ocultar");
@@ -259,7 +242,6 @@ const startActiviy = (e) => {
 /*
  *Función para filtrar la lista de preguntas por categoria
  */
-
 const filterListQuestion = (listWords) => {
   listquestion = listWords.filter((listWord) =>
     listWord.category.includes(categoriaInput)
@@ -269,7 +251,6 @@ const filterListQuestion = (listWords) => {
 /*
 Función para devolver el array ordenado de forma aleatoria.*
 */
-
 const randomOrder = (filterList) => {
   orderedListing = filterList.sort(() => Math.random() - 0.5);
 };
@@ -307,7 +288,6 @@ const orderByHit = (filterList) => {
 /**
  * Función para crear array con la cantidad de palabras seleccionada por el usuario en  listening
  */
-
 const filteredByNumberOfSelectedQuestions = (filterList, cantidadInput) => {
   orderedListing = filterList.slice(0, cantidadInput);
   saveFilteredList(orderedListing);
@@ -315,7 +295,6 @@ const filteredByNumberOfSelectedQuestions = (filterList, cantidadInput) => {
 
 /*Función para filtrar la lista de preguntas por categoria
  */
-
 const filterListQuestionRemember = (listWords) => {
   filteredQuestionList = listWords.filter(
     (listWord) => listWord.category == categoriaInputRemember
@@ -326,7 +305,6 @@ const filterListQuestionRemember = (listWords) => {
 /*
 Función para devolver el array ordenado de forma aleatoria.*
 */
-
 const randomOrderRemember = (filterList) => {
   filteredQuestionList = filterList.sort(() => Math.random() - 0.5);
 };
@@ -344,7 +322,6 @@ const saveFilteredListRemember = (filteredQuestionList) => {
 /**
  * Función para crear array con la cantidad de palabras seleccionada por el usuario
  */
-
 const filteredByNumberOfSelectedQuestionsRemember = (
   filteredQuestionList,
   cantidadInputRemember

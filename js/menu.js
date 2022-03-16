@@ -1,4 +1,4 @@
-//Inicia funcionalidad del menú
+//Funcionalidad del menú
 /**
  * Ejecutar función en el evento click
  */
@@ -16,14 +16,12 @@ function open_close_menu() {
 }
 
 /**Si el ancho de la página es menor a 760px, ocultará el menú al recargar la página*/
-
 if (window.innerWidth < 760) {
   body.classList.add("body_move");
   side_menu.classList.add("menu__side_move");
 }
 
 /**Haciendo el menú responsive(adaptable)*/
-
 window.addEventListener("resize", function () {
   if (window.innerWidth > 760) {
     body.classList.remove("body_move");
@@ -37,7 +35,6 @@ window.addEventListener("resize", function () {
 });
 
 /*Inicia el Logout */
-
 const btnLogout = document.querySelector("#logout");
 
 const logout = () => {

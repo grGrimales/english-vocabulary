@@ -2,7 +2,7 @@
 
 import { fetchConToken } from "../js/fetch.js";
 
-/*Referencia al Html*/
+/*Referencias al Html*/
 const categoria = document.getElementById("categoria");
 const order = document.getElementById("order");
 const btnInicio = document.querySelector("#btnInicio");
@@ -16,7 +16,6 @@ const categorySelected = document.querySelector("#category-selected");
 const btnReturn = document.querySelector(".btn-return");
 
 /*Declaración variables */
-
 let selectCategoria = "";
 let selectOrder = "";
 let filteredWordList = [];
@@ -30,23 +29,17 @@ const valueSelectCategoria = () => {
   selectCategoria = categoria.value;
   localStorage.setItem("selectCategoria", selectCategoria);
 };
-
 const valueSelectOrder = () => {
   selectOrder = order.value;
 };
 
 /* Función para crear select*/
-
 const printSelect = async () => {
   const resp = await fetchConToken("category", {});
-
   const body = await resp.json();
-
   const categorys = body.categorys;
-
   for (let i = 0; i < categorys.length; i++) {
     let option = document.createElement("option");
-
     option.value = categorys[i].toLowerCase();
     option.text = categorys[i];
     categoria.appendChild(option);
@@ -186,7 +179,6 @@ export const showErrrorFormVocabulary = (error) => {
   contenedorErr.appendChild(messageError);
   contenedorErr.classList.add("error", "cont-err");
   sectionForm.appendChild(contenedorErr);
-
   setTimeout(() => {
     contenedorErr.remove();
   }, 2000);
@@ -227,19 +219,16 @@ const startActivity = (e) => {
       localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
       printActiveWord(filteredWordList);
     } else if (selectOrder === "numberReproductions") {
-      // listToShow = JSON.parse(localStorage.getItem("listToShow"));
       orderByLeastPlayed(listToShow);
       filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
       localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
       printActiveWord(filteredWordList);
     } else if (selectOrder === "numberSuccessful") {
-      // listToShow = JSON.parse(localStorage.getItem("listToShow"));
       orderByHit(listToShow);
       filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
       localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
       printActiveWord(filteredWordList);
     }
-
     printCategory();
   } else if (!listWords) {
     Swal.fire({
@@ -261,8 +250,6 @@ const checkInformationLocalStorage = () => {
   filteredWordList = JSON.parse(localStorage.getItem("filteredWordList"));
   if (filteredWordList !== null || filteredWordList !== []) {
     printActiveWord(filteredWordList);
-  } else {
-    return;
   }
 };
 
@@ -282,7 +269,6 @@ const hideWordSpanish = (e) => {
 };
 
 /* Función para limpiar el html*/
-
 const clearHtml = () => {
   while (contenedorActiveWord.children[1]) {
     contenedorActiveWord.children[1].remove();
@@ -294,8 +280,6 @@ const clearHtml = () => {
 const handleAudio = () => {
   changeActiveWord();
   const currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
-
-  // LLega al final del listado
   if (currentIndexStorage >= filteredWordList.length) {
     localStorage.setItem("currentIndex", 0);
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
@@ -310,7 +294,9 @@ const handleAudio = () => {
   }
 };
 
-// Reproduce el audio
+/**
+ *Función que reproduce el audio
+ */
 const playAudio = () => {
   audio.load();
   setTimeout(() => {
@@ -319,14 +305,10 @@ const playAudio = () => {
 };
 
 /* Función para cambiar palabra activa*/
-
 const changeActiveWord = () => {
   currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
-
   currentIndexStorage += 1;
-
   wordActive = filteredWordList[currentIndexStorage];
-
   // validamos si wordActive existe, si existe lo guardamos en localstorage
   if (wordActive) {
     localStorage.setItem("wordActive", JSON.stringify(wordActive));
@@ -345,7 +327,6 @@ const resetValores = () => {
   currentIndexStorage = 0;
   localStorage.setItem("currentIndex", currentIndexStorage);
   localStorage.setItem("wordActive", JSON.stringify(wordActive));
-
   categoria.value = "--Seleccione--";
   order.value = "--Seleccione--";
 };
@@ -356,7 +337,6 @@ const resetValores = () => {
 const returnForm = (e) => {
   e.preventDefault();
   stopAudio();
-  // localStorage.clear();
   localStorage.removeItem("listToShow");
   localStorage.removeItem("filteredWordList");
   localStorage.removeItem("selectCategoria");
@@ -399,7 +379,6 @@ const selectActiveWord = (e) => {
 };
 
 /*Eventos*/
-
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
 audio.addEventListener("ended", handleAudio);

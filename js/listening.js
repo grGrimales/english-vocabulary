@@ -23,14 +23,12 @@ let answerInput = "";
 /**
  * Función para aumentar los aciertos
  */
-
 const increaseNumberSuccessful = async (id, evaluation) => {
-  const resp = await fetchConToken(
+  await fetchConToken(
     `vocabulary/evaluateExercise/${id}?evaluation=${evaluation}`,
     {},
     "PUT"
   );
-  const body = await resp.json();
 };
 
 /**
@@ -166,7 +164,6 @@ export const printAudioActive = (activeQuestion) => {
 /*
  *Función para verificar si ya existe el listado preguntas de listening + writting
  */
-
 const checkquestionListLocalStorage = () => {
   const questionListStorage = JSON.parse(localStorage.getItem("questionList"));
   const activeQuestionStorage = JSON.parse(
@@ -178,15 +175,13 @@ const checkquestionListLocalStorage = () => {
     sectionEjercicios.classList.add("ocultar");
     sectionListening.classList.remove("ocultar");
     printAudioActive(activeQuestionStorage);
-  } else {
-    return;
   }
 };
 
 checkquestionListLocalStorage();
 
 /**
- * Función para cerrar la actividad
+ * Función para cerrar la actividad de listening
  */
 const closeListening = () => {
   clearLocalStorage();
@@ -194,14 +189,14 @@ const closeListening = () => {
   sectionEjercicios.classList.remove("ocultar");
 };
 
-/*
+/**
  *Función para abrir la ventana modal una vez que finaliza el listado de preguntas
  */
 const openModalListening = () => {
   modalListening.style.display = "block";
 };
 
-/*
+/**
  *Función para cerrar la ventana modal de listening
  */
 const closeModalListening = () => {
@@ -214,7 +209,6 @@ const closeModalListening = () => {
 /*
  *Función para borrar el localStorage
  */
-
 export const clearLocalStorage = () => {
   localStorage.removeItem("questionList");
   localStorage.removeItem("indexActiveQuestion");
@@ -222,7 +216,7 @@ export const clearLocalStorage = () => {
 };
 
 /*
- * /Eventos
+ * Eventos
  */
 btnListening.addEventListener("click", evaluateAnswer);
 btnListening.addEventListener("onkeypress", evaluateAnswer);

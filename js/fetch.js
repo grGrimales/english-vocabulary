@@ -1,9 +1,7 @@
 /* Función para realizar peticiones https sin token*/
-
 const baseUrl = "https://my-vocabulary-api.herokuapp.com/api";
 export const fetchSinToken = (endpoint, data, method = "GET") => {
   const url = `${baseUrl}/${endpoint}`;
-
   if (method === "GET") {
     return fetch(url);
   } else {
@@ -20,7 +18,6 @@ export const fetchSinToken = (endpoint, data, method = "GET") => {
 /* Función para realizar peticiones https con token*/
 export const fetchConToken = (endpoint, data, method = "GET") => {
   const url = `${baseUrl}/${endpoint}`;
-
   const token = localStorage.getItem("token") || "";
   if (method === "GET") {
     return fetch(url, {

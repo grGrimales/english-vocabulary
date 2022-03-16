@@ -5,16 +5,13 @@ import { fetchSinToken, fetchConToken } from "../js/fetch.js";
 const btnLogin = document.querySelector(".btn-login");
 const btnHome = document.querySelector(".btn-home");
 const btnPrueba = document.querySelector(".btn-prueba");
-
 const email = document.querySelector("#email");
 const password = document.querySelector("#password");
 const contenedorLogin = document.querySelector(".contenedor-login");
 const sectionHome = document.querySelector(".section-home");
-
 const modalLogin = document.getElementById("modalLogin");
 const spanLogin = document.getElementsByClassName("login")[0];
 const optionsMenu = document.querySelector(".options__menu");
-
 let token = "";
 export let isLogged = false;
 
@@ -72,8 +69,6 @@ const showMessage = (message, tipo) => {
     divMessage.classList.add("error");
   } else if (tipo === "success") {
     divMessage.classList.add("success");
-  } else {
-    console.log("es otro tipo");
   }
 
   setTimeout(() => {
@@ -85,7 +80,6 @@ const showMessage = (message, tipo) => {
 
 const printMenu = () => {
   let menu = document.createElement("div");
-
   menu.innerHTML = `
   <a href="" class="selected">
   <div class="option">
@@ -113,8 +107,6 @@ const printMenu = () => {
     <h4>Vídeos</h4>
   </div>
 </a> 
-
-
   `;
 
   if (optionsMenu.lastElementChild) {
@@ -153,8 +145,7 @@ spanLogin?.addEventListener("click", closeModalLogin);
 
 /* Inicia funcionalidad de register */
 
-/* Referencia al Html*/
-
+/* Referencias al Html*/
 const rName = document.querySelector("#rName");
 const rEmail = document.querySelector("#rEmail");
 const rPassword = document.querySelector("#rPassword");
@@ -163,7 +154,6 @@ const btnRegister = document.querySelector(".btn-register");
 /*
  *Función para el registro
  */
-
 const startRegister = async (e) => {
   e.preventDefault();
   const inputName = rName.value;
@@ -205,9 +195,7 @@ const startRegister = async (e) => {
  */
 const getListOfWords = async () => {
   const resp = await fetchConToken("vocabulary", {});
-
   const body = await resp.json();
-
   const listWords = body.vocabularies;
 
   localStorage.setItem("listWords", JSON.stringify(listWords));
@@ -216,5 +204,4 @@ const getListOfWords = async () => {
 /*
  *Eventos
  */
-
 btnRegister?.addEventListener("click", startRegister);

@@ -1,42 +1,36 @@
 import { sectionRememberWords, sectionEjercicios } from "../js/ejercicios.js";
 import { saveValueParameters } from "../js/listening.js";
 
-/* Referencia al Html*/
+/* Referencias al Html*/
 const btnReturnRemember = document.querySelector("#btnReturnRemember");
 const contErrorDos = document.querySelector(".cont-err-dos");
 const btnRemember = document.querySelector(".btn-remember");
 
 const activeWordRemember = document.querySelector(".active-word-remember");
 const rememberInput = document.querySelector("#rememberInput");
-const contenedorRememberWords = document.querySelector(
-  ".contenedor-remember-words"
-);
 
 export const modalRememberFinalized = document.getElementById(
   "modalRememberFinalized"
 );
 const rememberFinalized = document.getElementsByClassName("finalized")[0];
 
-/* Declaración variables */
-
+/** Declaración variables */
 let indexActiveQuestion;
-
 let answerInputRemember = "";
 
-/* Función para limpiar el html*/
-
+/**  Función para limpiar el html*/
 const clearHtml = () => {
   while (activeWordRemember.children[0]) {
     activeWordRemember.children[0].remove();
   }
 };
 
-/*
+/**
  *Función para mostrar  la palabra activa
  */
 export const printActiveWordRemember = (activeQuestionRemember) => {
   clearHtml();
-  const { englishWord, img } = activeQuestionRemember;
+  const { englishWord } = activeQuestionRemember;
   const activeWord = document.createElement("li");
   activeWord.textContent = englishWord;
   activeWord.classList.add("active");
@@ -48,14 +42,11 @@ export const printActiveWordRemember = (activeQuestionRemember) => {
  * Función para comprobar respuesta
  */
 const evaluateAnswerRemember = (e) => {
+  e.preventDefault();
   let activeQuestionRemember = JSON.parse(
     localStorage.getItem("activeQuestion")
   );
-  let filteredQuestionList = JSON.parse(
-    localStorage.getItem("filteredQuestionList")
-  );
 
-  e.preventDefault();
   answerInputRemember = rememberInput.value;
 
   if (answerInputRemember === "") {
@@ -80,10 +71,7 @@ const evaluateAnswerRemember = (e) => {
  */
 const showMessageRemember = (messagge, tipo) => {
   const contenedorMsj = document.querySelector(".contenedor-alert");
-  let activeQuestionRemember = JSON.parse(
-    localStorage.getItem("activeQuestion")
-  );
-  const { id } = activeQuestionRemember;
+
   let filteredQuestionList = JSON.parse(
     localStorage.getItem("filteredQuestionList")
   );
@@ -134,10 +122,9 @@ const showMessageRemember = (messagge, tipo) => {
   }
 };
 
-/*
+/**
  * Función para  Actualizar en el local storage los valores de palabra activa y el index
  */
-
 const nextActiveWordRemember = (listWord) => {
   indexActiveQuestion = parseInt(localStorage.getItem("indexActiveQuestion"));
 
@@ -156,7 +143,7 @@ const nextActiveWordRemember = (listWord) => {
   }
 };
 
-/*
+/**
  *Función para mostra error en el formulario de remember
  */
 export const showErrrorFormRemember = (error) => {
@@ -184,8 +171,6 @@ const checkquestionListLocalStorageRemember = () => {
     sectionEjercicios.classList.add("ocultar");
     printActiveWordRemember(activeQuestionRemember);
     sectionRememberWords.classList.remove("ocultar");
-  } else {
-    return;
   }
 };
 
