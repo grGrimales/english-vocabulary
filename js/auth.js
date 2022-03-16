@@ -37,10 +37,7 @@ const startLogin = async (e) => {
     password: password.value,
   };
   const er = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  // if (formData.email === "" || formData.password === "") {
-  //   showMessage("* Todos los campos son requeridos", "err");
-  //   return;
-  // }
+
   if (formData.email === "" || formData.password === "") {
     showMessage("* Todos los campos son requeridos", "err");
     return;
