@@ -38,7 +38,7 @@ const evaluateAnswer = (e) => {
   activeQuestion = JSON.parse(localStorage.getItem("activeQuestion"));
   e.preventDefault();
   answerInput = answer.value;
-
+  answer.focus();
   if (answerInput === "") {
     showErrrorInput("Debes ingresar un valor");
     printAudioActive(activeQuestion);

@@ -48,7 +48,7 @@ const evaluateAnswerRemember = (e) => {
   );
 
   answerInputRemember = rememberInput.value;
-
+  rememberInput.focus();
   if (answerInputRemember === "") {
     showMessageRemember("Debes ingresar un valor", "required");
     return;
