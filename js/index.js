@@ -280,14 +280,20 @@ const clearHtml = () => {
 const handleAudio = () => {
   changeActiveWord();
   const currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
-  if (currentIndexStorage >= filteredWordList.length) {
+  if (
+    currentIndexStorage >= filteredWordList.length &&
+    filteredWordList.length > 0
+  ) {
     localStorage.setItem("currentIndex", 0);
     localStorage.setItem("wordActive", JSON.stringify(filteredWordList[0]));
     clearHtml();
     printActiveWord(filteredWordList);
     playAudio();
   }
-  if (currentIndexStorage < filteredWordList.length) {
+  if (
+    currentIndexStorage < filteredWordList.length &&
+    filteredWordList.length > 0
+  ) {
     clearHtml();
     printActiveWord(filteredWordList);
     playAudio();
@@ -301,7 +307,7 @@ const playAudio = () => {
   audio.load();
   setTimeout(() => {
     audio.play();
-  }, 800);
+  }, 700);
 };
 
 /* Función para cambiar palabra activa*/
@@ -309,7 +315,6 @@ const changeActiveWord = () => {
   currentIndexStorage = parseInt(localStorage.getItem("currentIndex"));
   currentIndexStorage += 1;
   wordActive = filteredWordList[currentIndexStorage];
-  // validamos si wordActive existe, si existe lo guardamos en localstorage
   if (wordActive) {
     localStorage.setItem("wordActive", JSON.stringify(wordActive));
   }
@@ -323,6 +328,7 @@ const resetValores = () => {
   selectCategoria = "";
   selectOrder = "";
   listToShow = [];
+  filteredWordList = [];
   wordActive = {};
   currentIndexStorage = 0;
   localStorage.setItem("currentIndex", currentIndexStorage);
@@ -340,10 +346,14 @@ const returnForm = (e) => {
   localStorage.removeItem("listToShow");
   localStorage.removeItem("filteredWordList");
   localStorage.removeItem("selectCategoria");
-
+  localStorage.removeItem("wordActive");
+  contenedorActiveWord.children[1].remove();
   resetValores();
   sectionActividad.classList.add("ocultar");
   sectionForm.classList.remove("ocultar");
+  setTimeout(() => {
+    stopAudio();
+  }, 500);
 };
 
 /**
@@ -380,6 +390,6 @@ const selectActiveWord = (e) => {
 /*Eventos*/
 btnInicio.addEventListener("click", startActivity);
 contenedorActiveWord.addEventListener("click", hideWordSpanish);
-audio.addEventListener("ended", handleAudio);
+audioHtml.addEventListener("ended", handleAudio);
 btnReturn.addEventListener("click", returnForm);
 words.addEventListener("click", selectActiveWord);
