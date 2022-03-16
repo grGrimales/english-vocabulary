@@ -181,6 +181,7 @@ const startRegister = async (e) => {
     isLogged = true;
     localStorage.setItem("isLogged", isLogged);
     printMenu();
+    getListOfWords();
 
     setTimeout(() => {
       window.open("/english-vocabulary/index.html", "_self");
