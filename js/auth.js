@@ -1,7 +1,7 @@
 /* Inicia funcionalidad de login */
 import { fetchSinToken, fetchConToken } from "../js/fetch.js";
-/* Referencia al Html*/
 
+/* Referencias al Html*/
 const btnLogin = document.querySelector(".btn-login");
 const btnHome = document.querySelector(".btn-home");
 const btnPrueba = document.querySelector(".btn-prueba");
