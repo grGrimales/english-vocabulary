@@ -53,10 +53,7 @@ printSelect();
 const randomOrder = (inputArray) => {
   const ramdonList = inputArray.sort(() => Math.random() - 0.5);
 
-  localStorage.setItem(
-    "filteredWordList",
-    JSON.stringify(ramdonList.slice(0, 7))
-  );
+  localStorage.setItem("filteredWordList", JSON.stringify(ramdonList));
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
@@ -73,10 +70,7 @@ const orderByLeastPlayed = (inputArray) => {
     }
     return 0;
   });
-  localStorage.setItem(
-    "filteredWordList",
-    JSON.stringify(filteredWordList.slice(0, 7))
-  );
+  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
@@ -93,10 +87,7 @@ const orderByHit = (inputArray) => {
     }
     return 0;
   });
-  localStorage.setItem(
-    "filteredWordList",
-    JSON.stringify(filteredWordList.slice(0, 7))
-  );
+  localStorage.setItem("filteredWordList", JSON.stringify(filteredWordList));
   localStorage.setItem("currentIndex", currentIndexStorage);
 };
 
